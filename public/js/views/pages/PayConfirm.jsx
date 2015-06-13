@@ -68,6 +68,7 @@ export default class PayConfirm extends React.Component {
   }
   
   onPay() {
+    
     // create payment data
     var data = {
       total: "",

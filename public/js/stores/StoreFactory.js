@@ -2,7 +2,7 @@ var EventEmitter = require('events').EventEmitter;
 var assign       = require('object-assign');
 var Immutable    = require('immutable');
 
-var createStore = (defaultState)=> {
+var createStore = function(defaultState) {
 
   defaultState = defaultState || {};
 
@@ -14,21 +14,21 @@ var createStore = (defaultState)=> {
 
     dispatchToken: null,
 
-    initState: ()=> {
+    initState: function() {
       this._state = this._defaultState;
       return this.getState();
     },
 
-    setState: (state)=> {
+    setState: function(state) {
       this._state = this._state.mergeDeep(state);
       this.changeState();
     },
 
-    getState: ()=> {
+    getState: function() {
       return this._state.toJS();
     },
 
-    changeState: ()=> {
+    changeState: function() {
       var state = this.getState();
       this.emit('change:state', state);
     }
@@ -38,7 +38,7 @@ var createStore = (defaultState)=> {
 };
 
 module.exports = {
-  create: (initState)=> {
+  create: function(initState) {
     var store = createStore(initState);
     store.initState();
     return store;

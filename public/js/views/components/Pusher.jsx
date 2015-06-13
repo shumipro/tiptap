@@ -5,22 +5,49 @@ var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
+var PusherStore    = require('../../stores/PusherStore'),
+    PusherActions  = require('../../actions/PusherActions')
+
 // Component Call
-var Modal = require('../components/Modal.jsx');
-var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage.jsx');
+var Modal = require('../components/Modal.jsx'),
+    ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage.jsx');
 
 export default class Pusher extends React.Component {
   
   constructor(props) {
     super(props)
     
-    this.state = {}
+    /* Componentの呼び出しの際にStoreを初期化 */
+    this.state = PusherStore.initState()
     
     this.text = {
       thanks: 'Thanks!',
       doller: '$'
     }
+    
   }
+  
+  /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
+  _setState(state) {
+    console.log("_setState",state);
+    this.setState(state);
+  }
+  
+  /* LifeCycleでStoreを監視 */
+  componentDidMount() {
+    PusherStore.on('change:state', this._setState);
+  }
+  componentWillUnMount() {
+    PusherStore.removeListener('change:state', this._setState);
+  }
+  
+  /* PusherComponent側から閉じたい時に呼ぶ */
+  onClose() {
+    this.setState({
+      show: false
+    })
+  }
+  
   
   render(){
     
@@ -34,10 +61,10 @@ export default class Pusher extends React.Component {
       userName,
       userIcon,
       payValue
-    } = this.props;
-    
+    } = this.state;
+    console.log("this.state", this.state);
     return (
-      <Modal className="Component_Pusher">
+      <Modal toggle={this.state.show}　className="Component_Pusher">
         <section className="Pusher__modal">
           <figure className="Puser__user">
             <ThumbsBackgroundImage imgPath={userIcon} />
