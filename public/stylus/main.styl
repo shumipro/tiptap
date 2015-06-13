@@ -1,40 +1,66 @@
-/*
-commons:
-*/
-@import '_commons/functions'         // Math[ceil, floor, mix, col...]
-@import '_commons/color-variables'   // Color
-@import '_commons/space-variables'   // Space Valriables[Margin, Padding...]
-@import '_commons/block-variables'   // Block Valriables[Width, height...]
-@import '_commons/fonts-variables'   // Font
-@import '_commons/reset'             // Reset
-@import '_commons/body'              // Body Element
+// # Gunosy Manga Client Styles
 
 
+// ## vendors
 
-/*
-mixins:
-*/
-@import '_mixins/vendors'            // Vendor Prefix
-@import '_mixins/animations'         // Transition, Animation
-@import '_mixins/triangles'          // Balloon Triangle
-@import '_mixins/fonts'              // Font
-@import '_mixins/colors'             // Gradient
-@import '_mixins/clearfix'           // Clearfix
-@import '_mixins/cancels'            // Cancel
-@import '_mixins/retina'             // Retina
-@import '_mixins/gradient'           // Gradient
-
-/*
-for Javascript:
-*/
+// ### normalize
+@import 'vendors/_kizu-reset/core/reset-core'
+@import 'vendors/_kizu-reset/meyer/reset-meyer'
+use_reset('meyer')
+reset('all')
 
 
-/*
-extends:
-*/
-@import '_extends/hover'
+// ## common
+// ### Variables
+@import 'vars/_space-size'
+@import 'vars/_border'
+@import 'vars/_border-radius'
+@import 'vars/_font'
+@import 'vars/_line-height'
+@import 'vars/_letter-spacing'
+@import 'vars/_z-index'
+@import 'vars/_ui-color'
+@import 'vars/_service-ui-color'
+@import 'vars/_sns'
 
-/*
-components:
-*/
-@import '_components/main'          // main
+
+// ## mixins
+@import 'mixins/_reset-tap-highlight'
+@import 'mixins/_reset-form-button'
+@import 'mixins/_clearfix'
+@import 'mixins/_font-size'
+@import 'mixins/_arrow'
+@import 'mixins/_flex'
+@import 'mixins/_list-item-block'
+@import 'mixins/_animation'
+@import 'mixins/_retina-border'
+@import 'mixins/_scroll'
+
+
+// ## extends
+@import 'extends/_padding'
+@import 'extends/_anchor'
+@import 'extends/_retina'
+@import 'extends/_fixed-under'
+@import 'extends/_button'
+@import 'extends/_input-text'
+@import 'extends/_flex'
+@import 'extends/_loader-airplane'
+
+// ## layouts
+@import 'layouts/_html'
+@import 'layouts/_header'
+@import 'layouts/_main'
+
+
+// ## components [include elements]
+@import 'components/_modal'
+
+
+// ## blocks
+@import 'blocks/_sample'
+
+
+// ## pages
+@import 'pages/_top'
+
