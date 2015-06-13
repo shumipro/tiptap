@@ -31,6 +31,11 @@
 			"Rev": "fcd0f5074e55df204568c7419509fb59ddcad228"
 		},
 		{
+			"ImportPath": "github.com/pusher/pusher-http-go",
+			"Comment": "v1.0.0",
+			"Rev": "2b93906dfc1675240c1c5afd1b4a71a06ea61ff8"
+		},
+		{
 			"ImportPath": "github.com/russross/blackfriday",
 			"Comment": "v1.2-69-g4bed88b",
 			"Rev": "4bed88b4fd00fbb66b49b0f38ed3dd0b902ab515"
