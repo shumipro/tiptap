@@ -7,12 +7,12 @@ type IndexViewModel struct {
 }
 
 type UserViewModel struct {
-	UserID   int64  `json:"user_id"`
+	UserID   string `json:"user_id"`
 	UserName string `json:"user_name"`
 }
 
 type PerformerViewModel struct {
-	PerformerID   int64  `json:"performer_id"`
+	PerformerID   string `json:"performer_id"`
 	PerformerName string `json:"performer_name"`
 	MajorID       int64  `json:"major_id"`
 	MinorID       int64  `json:"minor_id"`
