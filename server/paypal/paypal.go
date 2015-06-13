@@ -62,22 +62,22 @@ func WithPayPalClient(ctx context.Context) (context.Context, error) {
 
 	// Cacheあれば使う
 	var err error
-	if token, ok := readCachePayPalAdmin(ctx); ok {
-		log.Println("payPalAdmin cache ok")
-		c.Admin = token
-	} else {
-		c.Admin, err = c.OAuth2.GetToken()
-		if err != nil {
-			return ctx, err
-		}
-		log.Println("payPalAdmin no cache")
+	//	if token, ok := readCachePayPalAdmin(ctx); ok {
+	//		log.Println("payPalAdmin cache ok")
+	//		c.Admin = token
+	//	} else {
+	c.Admin, err = c.OAuth2.GetToken()
+	if err != nil {
+		return ctx, err
 	}
+	log.Println("payPalAdmin no cache")
+	//	}
 
 	// Cacheする
-	if err := writeCachePayPalAdmin(ctx, c.Admin); err != nil {
-		// 一応とれてるからログだけだす
-		log.Println(err)
-	}
+	//	if err := writeCachePayPalAdmin(ctx, c.Admin); err != nil {
+	//		// 一応とれてるからログだけだす
+	//		log.Println(err)
+	//	}
 
 	return context.WithValue(ctx, payPalClientKey, c), nil
 }
