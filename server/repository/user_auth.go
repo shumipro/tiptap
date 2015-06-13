@@ -1,4 +1,4 @@
-package models
+package repository
 
 import (
 	"golang.org/x/net/context"
@@ -10,31 +10,31 @@ type UserAuth struct {
 	TwitterToken string `                json:"twitterToken"`
 }
 
-type _UserAuthTable struct {
+type _UserAuthRepository struct {
 }
 
-func (_ _UserAuthTable) Name() string {
+func (_ _UserAuthRepository) Name() string {
 	return "user_auth"
 }
 
-var _ modelsTable = (*_UserAuthTable)(nil)
+var _ repository = (*_UserAuthRepository)(nil)
 
-var UserAuthTable = _UserAuthTable{}
+var UserAuthRepository = _UserAuthRepository{}
 
-func (t _UserAuthTable) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
+func (t _UserAuthRepository) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
 	withDefaultCollection(ctx, t.Name(), fn)
 }
 
 // ----------------------------------------------
 
-func (t _UserAuthTable) FindID(ctx context.Context, userID string) (result UserAuth, err error) {
+func (t _UserAuthRepository) FindID(ctx context.Context, userID string) (result UserAuth, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.FindId(userID).One(&result)
 	})
 	return
 }
 
-func (t _UserAuthTable) Upsert(ctx context.Context, user UserAuth) error {
+func (t _UserAuthRepository) Upsert(ctx context.Context, user UserAuth) error {
 	var err error
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		var result interface{} // bson.M

@@ -10,6 +10,8 @@ import (
 	"golang.org/x/oauth2/paypal"
 )
 
+const payPalAuthCallbackURL = "auth/paypal/callback"
+
 var (
 	ErrNonClientID = errors.New("env error PAYPAL_CLIENTID")
 	ErrNonSecret   = errors.New("env error PAYPAL_SECRET")
@@ -18,7 +20,7 @@ var (
 
 type authKey string
 
-func NewContext(ctx context.Context) context.Context {
+func NewPayPal(ctx context.Context) context.Context {
 	ctx, err := WithPayPal(ctx)
 	if err != nil {
 		log.Println(err)
@@ -40,8 +42,8 @@ func WithPayPal(ctx context.Context) (context.Context, error) {
 		return ctx, ErrNonBaseURL
 	}
 
-	// TODO: callbackを外から指定
-	callBackURL := baseURL + "auth/paypal/callback"
+	// TODO: callbackを外から指定できるようにする
+	callBackURL := baseURL + payPalAuthCallbackURL
 
 	// TODO: scopeは外から指定できるようにする
 	conf := &oauth2.Config{
@@ -64,12 +66,12 @@ func WithPayPal(ctx context.Context) (context.Context, error) {
 	return context.WithValue(ctx, authKey("paypal"), conf), nil
 }
 
-func GetAuthToken(ctx context.Context, code string) (*oauth2.Token, error) {
-	c, _ := FromContext(ctx)
+func GetPayPalAuthToken(ctx context.Context, code string) (*oauth2.Token, error) {
+	c, _ := FromPayPalContext(ctx)
 	return c.Exchange(oauth2.NoContext, code)
 }
 
-func FromContext(ctx context.Context) (*oauth2.Config, bool) {
+func FromPayPalContext(ctx context.Context) (*oauth2.Config, bool) {
 	conf, ok := ctx.Value(authKey("paypal")).(*oauth2.Config)
 	return conf, ok
 }

@@ -1,4 +1,4 @@
-package models
+package repository
 
 import (
 	"fmt"
@@ -20,8 +20,14 @@ type User struct {
 	HomePageURL   string        `             	 json:"HomePageURL"`    // ウェブサイトURL
 	GitHubURL     string        `             	 json:"GitHubURL"`      // Github URL
 	TwitterUser   anaconda.User `bson:"twitter"  json:"TwitterUser"`   // Twitterのshows情報
-	CreateAt      time.Time     `                json:"-"`
-	UpdateAt      time.Time     `                json:"-"`
+	Beacon        Beacon
+	CreateAt      time.Time `                json:"-"`
+	UpdateAt      time.Time `                json:"-"`
+}
+
+type Beacon struct {
+	MajorID int64
+	MinorID int64
 }
 
 func (u User) IconImageURL() string {
@@ -52,38 +58,48 @@ func (u User) IsEmpty() bool {
 	return u.ID == ""
 }
 
-type _UsersTable struct {
+type _UsersRepository struct {
 }
 
-func (_ _UsersTable) Name() string {
+func (_ _UsersRepository) Name() string {
 	return "users"
 }
 
-var _ modelsTable = (*_UsersTable)(nil)
+var _ repository = (*_UsersRepository)(nil)
 
-var UsersTable = _UsersTable{}
+var UsersRepository = _UsersRepository{}
 
-func (t _UsersTable) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
+func (t _UsersRepository) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
 	withDefaultCollection(ctx, t.Name(), fn)
 }
 
 // ----------------------------------------------
 
-func (t _UsersTable) FindID(ctx context.Context, userID string) (result User, err error) {
+func (t _UsersRepository) FindID(ctx context.Context, userID string) (result User, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.FindId(userID).One(&result)
 	})
 	return
 }
 
-func (t _UsersTable) FindByTwitterID(ctx context.Context, twitterID int64) (result User, err error) {
+func (t _UsersRepository) FindByBeacon(ctx context.Context, majorID int64, minorID int64) (result User, err error) {
+	t.withCollection(ctx, func(c *mgo.Collection) {
+		err = c.Find(bson.M{
+			"beacon.majorid": majorID,
+			"beacon.minorid": minorID,
+		}).One(&result)
+	})
+	return
+}
+
+func (t _UsersRepository) FindByTwitterID(ctx context.Context, twitterID int64) (result User, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.Find(bson.M{"twitter.id": twitterID}).One(&result)
 	})
 	return
 }
 
-func (t _UsersTable) FindByKeyword(ctx context.Context, keyword string) (results []User, err error) {
+func (t _UsersRepository) FindByKeyword(ctx context.Context, keyword string) (results []User, err error) {
 	regexWord := fmt.Sprintf(".*%s.*", keyword)
 	fmt.Println("Keyword = ", regexWord)
 
@@ -97,7 +113,7 @@ func (t _UsersTable) FindByKeyword(ctx context.Context, keyword string) (results
 }
 
 // Upsert 登録
-func (t _UsersTable) Upsert(ctx context.Context, user User) error {
+func (t _UsersRepository) Upsert(ctx context.Context, user User) error {
 	var err error
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		var result interface{} // bson.M

@@ -1,7 +1,9 @@
 package apis
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"bytes"
@@ -9,17 +11,30 @@ import (
 
 	"github.com/guregu/kami"
 	gopay "github.com/kyokomi/paypal"
+	"github.com/shumipro/tiptap/server/login"
 	"github.com/shumipro/tiptap/server/paypal"
+	"github.com/shumipro/tiptap/server/service"
 	"golang.org/x/net/context"
 )
 
 func init() {
-	kami.Get("/payment/create", PaymentCreate)
+	kami.Post("/api/payment/create", PaymentCreate)
 	kami.Get("/payment/list", PaymentList)
 	kami.Get("/payment/done", PaymentDone)
 	kami.Get("/payment/payout", PaymentPayout)
 	kami.Get(paypal.PayPalReturnURL, PayPalPaymentExecute)
 	kami.Get(paypal.PayPalCancelURL, PayPalPaymentCancel)
+}
+
+type PaymentData struct {
+	Payments []PaymentItem `json:"payments"`
+	Total    string        `json:"total"`
+}
+
+type PaymentItem struct {
+	Currency    string `json:"currency"`
+	Amount      string `json:"amount"`
+	PerformerID string `json:"performer_id"`
 }
 
 func PaymentList(ctx context.Context, w http.ResponseWriter, r *http.Request) {
@@ -39,27 +54,66 @@ func PaymentList(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println("ERROR!", err)
+		renderer.JSON(w, 400, err.Error())
+		return
+	}
+
+	// convert request params to struct
+	var payData PaymentData
+	if err := json.Unmarshal(data, &payData); err != nil {
+		log.Println("ERROR! json parse", err)
+		renderer.JSON(w, 400, err.Error())
+		return
+	}
+
+	a, ok := login.FromContext(ctx)
+	if !ok {
+		renderer.JSON(w, 401, "not login user")
+		return
+	}
+
 	client, ok := paypal.FromPayPalClient(ctx)
 	if !ok {
 		renderer.JSON(w, 400, "not found paypal client")
 		return
 	}
 
-	// TODO: params?
+	// totalの支払いだけシステムへ行う
+	fmt.Println(string(payData.Total))
 	payReq := client.PaymentCreateReq(gopay.Amount{
-		Total:    "9.99",
+		Total:    payData.Total,
 		Currency: "USD",
-	}, "example payment")
+	}, "Total Payment")
+
 	payRes, err := client.Payment.Create(payReq)
 	if err != nil {
 		renderer.JSON(w, 400, err.Error())
 		return
 	}
 
+	// mongoにpayoutキューとしてストアしておく
+	for _, p := range payData.Payments {
+		payoutUserID := p.PerformerID
+		err = service.Payout.AddPayoutQueue(ctx, payRes.ID, a.UserID, payoutUserID, p.Amount, p.Currency)
+		if err != nil {
+			// TODO: 辛いけど手オペ対応しないといけない airbrakeする
+			log.Println(err)
+		}
+	}
+
 	approvalURL := payRes.LinkByRel(gopay.RelApprovalURL).URL
-	http.Redirect(w, r, approvalURL, 302)
+
+	fmt.Println(string(approvalURL))
+
+	result := map[string]string{"approvalURL": approvalURL}
+
+	renderer.JSON(w, 200, result)
 }
 
+// TODO: 廃止予定
 func PaymentPayout(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	client, ok := paypal.FromPayPalClient(ctx)
 	if !ok {
@@ -110,32 +164,22 @@ func PayPalPaymentExecute(ctx context.Context, w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// TODO: apiライブラリへ
+	payerID := r.FormValue("PayerID")
+	paymentID := r.FormValue("paymentId")
 
-	buf := bytes.NewBufferString(fmt.Sprintf("{ \"payer_id\" : \"%s\"}", r.FormValue("PayerID")))
-	req, err := http.NewRequest("POST", fmt.Sprintf("https://api.sandbox.paypal.com/v1/payments/payment/%s/execute/", r.FormValue("paymentId")), buf)
-	if err != nil {
+	req := gopay.PaymentExecuteRequest{}
+	req.PayerID = payerID
+	if err := client.Payment.Execute(paymentID, req); err != nil {
 		renderer.JSON(w, 400, err.Error())
 		return
 	}
 
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", client.Authorization())
-
-	res, err := client.Do(req)
-	if err != nil {
+	// TODO: paymentIDでqueueを更新
+	if err := service.Payout.ReadyPayoutQueue(ctx, paymentID); err != nil {
+		// TODO: 手オペになる airbrakeする
 		renderer.JSON(w, 400, err.Error())
 		return
 	}
-	defer res.Body.Close()
-
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		renderer.JSON(w, 400, err.Error())
-		return
-	}
-
-	fmt.Println(string(data))
 
 	http.Redirect(w, r, "/payment/done", 302)
 }

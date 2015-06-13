@@ -7,8 +7,9 @@ var joinClasses = require('react/lib/joinClasses');
 
 // Component Call
 var MenuTrigger = require('../components/MenuTrigger.jsx');
+var PayCounter = require('../components/PayCounter.jsx');
 
-export default class Reply extends React.Component {
+export default class Header extends React.Component {
   
   constructor(props) {
     super(props)
@@ -32,6 +33,7 @@ export default class Reply extends React.Component {
         { isHistoryBack &&
           <button className="Header__prev" onClick={this.onClick} />
         }
+        <PayCounter />
         <MenuTrigger />
       </header>
     );

@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/shumipro/tiptap/server/domain"
-	"github.com/shumipro/tiptap/server/models"
+	"github.com/shumipro/tiptap/server/repository"
 	"golang.org/x/net/context"
 )
 
@@ -27,12 +27,14 @@ func (t userService) Get(ctx context.Context, userID string) (domain.User, error
 		return guestUser, nil
 	}
 
-	user, err := models.UsersTable.FindID(ctx, userID)
+	user, err := repository.UsersRepository.FindID(ctx, userID)
 	if err != nil {
 		return domain.User{}, err
 	}
 	u.UserID = user.ID
 	u.UserName = user.Name
+	u.UserImageURL = user.IconImageURL()
+	u.Description = user.TwitterUser.Description
 
 	return u, nil
 }

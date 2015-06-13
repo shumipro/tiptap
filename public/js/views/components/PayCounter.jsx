@@ -9,7 +9,7 @@ var joinClasses = require('react/lib/joinClasses');
 var {
 } = require('../components');
 
-export default class Regist extends React.Component {
+export default class PayCounter extends React.Component {
   
   constructor(props) {
     super(props)
@@ -36,14 +36,16 @@ export default class Regist extends React.Component {
     
     return (
       <div className="Component_PayCount">
-        <Link to="PayConfirm">
-          <button className="PayCounte__button">
-            {payButtonLabel}
-          </button>
-          <i className="PayCounte__counter">
-            {count}
-          </i>
-        </Link>
+        { count > 0 && 
+          <Link to="PayConfirm">
+            <button className="PayCounte__button">
+              {payButtonLabel}
+            </button>
+            <i className="PayCounte__counter">
+              {count}
+            </i>
+          </Link>
+        }
       </div>
     );
   }

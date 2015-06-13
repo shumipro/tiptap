@@ -1,30 +1,44 @@
 package service
 
-import "github.com/shumipro/tiptap/server/domain"
+import (
+	"github.com/shumipro/tiptap/server/domain"
+	"github.com/shumipro/tiptap/server/repository"
+	"golang.org/x/net/context"
+)
 
 var Performer = performerService{}
 
 type performerService struct {
 }
 
-func (s performerService) Get(userID int64) (domain.Performer, error) {
+func (s performerService) Get(ctx context.Context, userID string) (domain.Performer, error) {
 	p := domain.Performer{}
-	p.UserName = "performer1"
-	p.MajorID = 1
-	p.MinorID = 1
-
-	// TODO: 仮実装
+	user, err := repository.UsersRepository.FindID(ctx, userID)
+	if err != nil {
+		return domain.Performer{}, err
+	}
+	p.UserID = user.ID
+	p.UserName = user.Name
+	p.UserImageURL = user.IconImageURL()
+	p.Description = user.TwitterUser.Description
+	p.MajorID = user.Beacon.MajorID
+	p.MinorID = user.Beacon.MinorID
 
 	return p, nil
 }
 
-func (s performerService) GetByBeacon(majorID, minorID int64) (domain.Performer, error) {
+func (s performerService) GetByBeacon(ctx context.Context, majorID, minorID int64) (domain.Performer, error) {
 	p := domain.Performer{}
-	p.UserName = "performer2"
-	p.MajorID = majorID
-	p.MinorID = minorID
-
-	// TODO: 仮実装
+	user, err := repository.UsersRepository.FindByBeacon(ctx, majorID, minorID)
+	if err != nil {
+		return domain.Performer{}, err
+	}
+	p.UserID = user.ID
+	p.UserName = user.Name
+	p.UserImageURL = user.IconImageURL()
+	p.Description = user.TwitterUser.Description
+	p.MajorID = user.Beacon.MajorID
+	p.MinorID = user.Beacon.MinorID
 
 	return p, nil
 }

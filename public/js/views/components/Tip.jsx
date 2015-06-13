@@ -6,16 +6,25 @@
 var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
+var request = require('superagent');
 
 // Component Call
 var {
 } = require('../components');
 
+
+// constants
+var text = {
+  buttonLabel: "TIP!"
+}
+
 export default class Tip extends React.Component {
   
-  text: {
-    buttonLabel: "TIP!"
+  PropsType: {
+    performerId: React.PropTypes.string
   }
+
+
   
   constructor(props) {
     super(props)
@@ -28,7 +37,7 @@ export default class Tip extends React.Component {
   
     var {
       buttonLabel
-    } = this.text;
+    } = text;
     
     var {
       tips
@@ -50,10 +59,25 @@ export default class Tip extends React.Component {
         )}>
           {TipList}
         </ul>
-        <button className="Tip__button">
+        <button className="Tip__button" onClick={this.execute.bind(this)}>
           {buttonLabel}
         </button>
       </section>
     );
+  }
+
+  execute() {
+    var data = {
+       "performer_id": this.props.performerId,
+       "amount":"1.00",
+       "currency":"USD"
+    }
+    request
+      .post('/api/pusher_pay')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        // Calling the end function will send the request
+      })
   }
 }

@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    {{ template "partials/header" . }}
+<html>
+<head prefix="og: http://ogp.me/ns#  article: http://ogp.me/ns/article#">
+  <meta charset="UTF-8">
+  <title>TipTap</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <script>
+    window.PRELOAD_DATA = {
+      isLogin: false,
+      pusherClientId: "21ca65f345ffaeacb59b"
+    };
+  </script>
 </head>
 <body>
-    <header>
-        {{ template "partials/nav" . }}
-    </header>
 
-    <div>
-        {{ .User }}
-    </div>
-
-    <div class="wrapper">
-        <section>
-            <a href="/payment/create"><h2>Payment</h2></a>
-            <a href="/payment/payout"><h2>Payout</h2></a>
-            <a href="/payment/list"><h2>History</h2></a>
-            <a href="/login/twitter"><h2>Twitter Login</h2></a>
-        </section>
-        <footer>
-            {{ template "partials/footer" . }}
-        </footer>
-    </div>
-    {{ template "partials/scripts" . }}
+  <div id="app">It will be replaced with React Component</div>
+  
+  <!-- script -->
+  <script>  
+  // for dummy api response
+  var OPTION = {
+      debug: true
+  };
+  </script>
+  <script src="//js.pusher.com/3.0/pusher.min.js"></script>
+  <script src="/dist/main.js"></script>
 </body>
 </html>

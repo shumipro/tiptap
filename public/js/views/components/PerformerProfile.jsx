@@ -6,15 +6,16 @@ var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
 // Component Call
-var {
-} = require('../components');
+var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
+
+// constants
+var text = {
+  title: "Performer Profie",
+  noDescription: "自己紹介を入力中"
+}
 
 export default class PerformerProfile extends React.Component {
   
-  text: {
-    title: "Performer Profie",
-    noDescription: "自己紹介を入力中"
-  }
   
   constructor(props) {
     super(props)
@@ -25,7 +26,10 @@ export default class PerformerProfile extends React.Component {
   // get API to Props
   getDefaultProps() {
     return  {
-      performerName: "Jonathan Frakes"
+      performerId: 0,
+      performerName: 'Jonathan Frakes',
+      performerDescription: 'パフォーマの説明文ですよ！brタグ使いたい場合は魔法が必要...',
+      performerIcon: '/images/sample/user-icon_performer.png'
     };
   }
   
@@ -34,11 +38,13 @@ export default class PerformerProfile extends React.Component {
     var {
       title,
       noDescription
-    } = this.text;
+    } = text;
     
     var {
+      performerId,
       performerName,
-      performerDescription
+      performerDescription,
+      performerIconImage
     } = this.props;
     
     return (
@@ -50,6 +56,7 @@ export default class PerformerProfile extends React.Component {
           <figcaption>
             {performerName}
           </figcaption>
+          <ThumbsBackgroundImage imgPath={performerIconImage} />
           { !!performerDescription &&
             <div className="PerformerProfile__description">
               {performerDescription}

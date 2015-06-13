@@ -13,8 +13,8 @@ import (
 	"gopkg.in/mgo.v2"
 
 	"github.com/shumipro/tiptap/server/login"
-	"github.com/shumipro/tiptap/server/models"
 	"github.com/shumipro/tiptap/server/oauth"
+	"github.com/shumipro/tiptap/server/repository"
 
 	"github.com/shumipro/tiptap/server/templates"
 )
@@ -23,6 +23,8 @@ func init() {
 	kami.Get("/login", Login)
 	kami.Get("/logout", Logout)
 	kami.Get("/login/twitter", LoginTwitter)
+	kami.Get("/login/paypal", LoginPayPal)
+	kami.Get("/auth/paypal/callback", AuthPayPalCallback)
 	kami.Get("/auth/twitter/callback", AuthTwitterCallback)
 }
 
@@ -72,14 +74,14 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	}
 
 	var a login.Account
-	var user models.User
-	var userAuth models.UserAuth
+	var user repository.User
+	var userAuth repository.UserAuth
 	a, err = login.GetAccountBySession(ctx, r)
 	if err == nil {
 		// Twitterもしくはfacebookですでにでログイン済み
-		user, err = models.UsersTable.FindID(ctx, a.UserID)
+		user, err = repository.UsersRepository.FindID(ctx, a.UserID)
 	} else {
-		user, err = models.UsersTable.FindByTwitterID(ctx, twUser.Id)
+		user, err = repository.UsersRepository.FindByTwitterID(ctx, twUser.Id)
 	}
 	if err != nil && err != mgo.ErrNotFound {
 		panic(err)
@@ -92,7 +94,7 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 
 		userAuth.UserID = user.ID
 	} else {
-		userAuth, _ = models.UserAuthTable.FindID(ctx, user.ID)
+		userAuth, _ = repository.UserAuthRepository.FindID(ctx, user.ID)
 		// 登録済み更新
 		log.Println("とうろくずみ", user)
 
@@ -105,11 +107,15 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	user.TwitterUser = twUser
 	userAuth.TwitterToken = accessToken.Token
 
-	if err := models.UsersTable.Upsert(ctx, user); err != nil {
+	// TODO: 一旦Beaconは固定
+	user.Beacon.MajorID = 42051
+	user.Beacon.MinorID = 29428
+
+	if err := repository.UsersRepository.Upsert(ctx, user); err != nil {
 		panic(err)
 	}
 
-	if err := models.UserAuthTable.Upsert(ctx, userAuth); err != nil {
+	if err := repository.UserAuthRepository.Upsert(ctx, userAuth); err != nil {
 		panic(err)
 	}
 
@@ -121,8 +127,8 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	http.Redirect(w, r, "/", 302)
 }
 
-func registerUser(name string) models.User {
-	user := models.User{}
+func registerUser(name string) repository.User {
+	user := repository.User{}
 	user.ID = uuid.New()
 	user.Name = name
 
@@ -131,4 +137,30 @@ func registerUser(name string) models.User {
 	user.UpdateAt = nowTime
 
 	return user
+}
+
+func LoginPayPal(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	c, _ := oauth.FromPayPalContext(ctx)
+	http.Redirect(w, r, c.AuthCodeURL(""), 302)
+}
+
+func AuthPayPalCallback(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	code := r.FormValue("code")
+	token, err := oauth.GetPayPalAuthToken(ctx, code)
+	if err != nil {
+		panic(err)
+	}
+
+	_ = token
+
+	fmt.Println(token)
+
+	// TODO: accessTokenでemailかpayerIDを取得する API呼び出し
+	fmt.Println("accessTokenでemailかpayerIDを取得する API呼び出し")
+
+	// TODO: payoutQueueをExecuteする
+	fmt.Println("payoutQueueをExecuteする")
+
+	// TODO: なんかダイアログ出す感じ?
+	http.Redirect(w, r, "/", 302)
 }

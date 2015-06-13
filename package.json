@@ -45,6 +45,7 @@
     "gulp-webpack": "^1.2.0",
     "immutable": "^3.7.3",
     "insert-css": "^0.2.0",
+    "keymirror": "^0.1.1",
     "lodash": "^3.9.3",
     "moment": "^2.10.3",
     "object-assign": "^3.0.0",
