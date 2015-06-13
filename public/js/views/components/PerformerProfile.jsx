@@ -49,7 +49,7 @@ export default class PerformerProfile extends React.Component {
 
     return (
       <section className="Component_PerformerProfile">
-        <ThumbsBackgroundImage imgPath={performerIconImage} />
+        <ThumbsBackgroundImage imagePath={performerIconImage} />
         { !!performerDescription &&
           <div className="PerformerProfile__description">
             {performerDescription}
