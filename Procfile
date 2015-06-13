@@ -1,1 +1,1 @@
-web: battle-app
+web: tiptap
