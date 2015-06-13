@@ -24,6 +24,7 @@ module.exports = keyMirror({
     /**
       Performer actions
     */
-    UPDATE_PERFORMER: null
+    UPDATE_PERFORMER: null,
+    ADD_PAY_COUNT: null
     
   });

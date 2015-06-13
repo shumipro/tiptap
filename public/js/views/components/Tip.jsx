@@ -7,6 +7,7 @@ var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 var request = require('superagent');
+var PayCountActions  = require('../../actions/PayCountActions');
 
 // Component Call
 var {
@@ -77,7 +78,9 @@ export default class Tip extends React.Component {
       .send(data)
       .set('Accept', 'application/json')
       .end(function(err, res){
-        // Calling the end function will send the request
+        if(!err){
+          PayCountActions.addPayCount();
+        }
       })
   }
 }
