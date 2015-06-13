@@ -17,6 +17,11 @@ module.exports = keyMirror({
     Confirm Dialog
   */
   SHOW_CONFIRM_DIALOG : null,
-  CLOSE_CONFIRM_DIALOG: null
+  CLOSE_CONFIRM_DIALOG: null,
   
+  /**
+    performer actions
+  */
+  UPDATE_PERFORMER: null
+
 });
