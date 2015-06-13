@@ -14,11 +14,7 @@ export default class Pusher extends React.Component {
   constructor(props) {
     super(props)
     
-    this.state = {
-      userName: 'Pusher User Name',
-      userIcon: '/images/sample/user-icon.png',
-      payValue: 1
-    }
+    this.state = {}
     
     this.text = {
       thanks: 'Thanks!',
@@ -34,10 +30,11 @@ export default class Pusher extends React.Component {
     } = this.text;
     
     var {
+      userId,
       userName,
       userIcon,
       payValue
-    } = this.state;
+    } = this.props;
     
     return (
       <Modal className="Component_Pusher">
@@ -64,3 +61,10 @@ export default class Pusher extends React.Component {
     );
   }
 }
+
+Pusher.defaultProps = {
+  userId: 0,
+  userName: 'Pusher User Name',
+  userIcon: '/images/sample/user-icon_audience.png',
+  payValue: 1
+};
