@@ -8,7 +8,7 @@ var joinClasses = require('react/lib/joinClasses');
 // Call Component
 var ThumbsBackgroundImage = require('./ThumbsBackgroundImage.jsx');
 
-export default class HistoryList extends React.Component {
+export default class BeaconHat extends React.Component {
   
   constructor(props) {
     super(props)
