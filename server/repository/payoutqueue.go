@@ -8,7 +8,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Amount int
+type Amount string
 
 type Currency string
 
@@ -20,11 +20,13 @@ type PayoutState string
 
 const (
 	PayoutStateStart = "START"
+	PayoutStateReady = "READY"
 	PayoutStateEnd   = "END"
 )
 
 type PayoutQueue struct {
 	QueueID      string `bson:"_id"`
+	PaymentID    string
 	PayerUserID  string
 	PayoutUserID string
 	Amount       Amount
@@ -63,6 +65,12 @@ func (t _PayoutQueueRepository) FindByState(ctx context.Context, state PayoutSta
 		err = c.Find(bson.M{"state": state}).All(&results)
 	})
 	return
+}
+
+func (t _PayoutQueueRepository) UpdateStateByPaymentID(ctx context.Context, paymentID string, state PayoutState) error {
+	return findAndModify(t, ctx, bson.M{"paymentid": paymentID}, bson.M{
+		"state": state,
+	})
 }
 
 // Upsert 登録
