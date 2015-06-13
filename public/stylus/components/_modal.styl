@@ -1,0 +1,102 @@
+.Component_modal
+  position fixed
+  top 0
+  width 100%
+  height 100%
+  display block
+  z-index Z_indexes[9]
+  opacity 1
+  easeOutExpo 1.4s opacity
+
+  &.hide
+    z-index Z_indexes[0]
+    display none
+    
+  &.visible
+    display block
+  
+    
+  .modal__heading
+    font-size Font_sizes[1]
+    color Service_SecondColor
+    text-align center
+    padding Space_sizes[2]
+    retina-border("bottom", gunosy_separate_border, after)
+    &:after
+      margin-bottom -2px
+      
+  .modal__frame
+    position absolute
+    top Header_size + Space_sizes[1]
+    width 100%
+    height 100%
+
+    easeOutBack .6s transform
+
+  .modal__body
+    position absolute
+    top Space_sizes[4]
+    width 90%
+    height 75%
+    left 10%
+    margin-left -5%
+    box-shadow 0 0px 1px 1px rgba(0,0,100,.2), 0 0px 10px -2px rgba(0,0,100,.6)
+
+  .modal__backdrop
+    position fixed
+    width 100%
+    height 200%
+    top 0
+    left 0
+    background-color rgba(27,9,2,.7)
+    easeOutExpo 1.2s opacity
+
+  .modal__close-trigger
+    button-reset()
+    width 100%
+    padding Space_sizes[5] Space_sizes[3] Space_sizes[5] Space_sizes[3]
+    font-size Font_sizes[1]
+    line-height 0
+    border-radius 0 0 Border_radius[2] Border_radius[2]
+    display block
+    background #efefea
+
+  &.modal-enter
+    opacity .3
+    .modal__frame
+      opacity 0
+      transform scale(.9)
+    .modal__backdrop
+      opacity 0
+
+  &.modal-enter.modal-enter-active
+    opacity 1
+    .modal__frame
+      opacity 1
+      transform scale(1)
+    .modal__backdrop
+      opacity 1
+
+  &.modal-leave
+    opacity 1
+    .modal__frame
+      opacity 1
+      transform scale(1)
+    .modal__backdrop
+      opacity 1
+
+  &.modal-leave.modal-leave-active
+    opacity .3
+    .modal__frame
+      opacity 0
+      transform scale(.9)
+    .modal__backdrop
+      opacity 0
+
+// z-indexの効かないAndroid対策
+.android_browser
+  .Component_modal
+    &.modal-leave, &.modal-leave-active
+      display none
+
+

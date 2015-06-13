@@ -10,3 +10,5 @@ configuration/config.js
 tiptap
 _test
 
+public/dist/main.js
+public/css/main.css
