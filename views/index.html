@@ -7,10 +7,9 @@
   <meta name="format-detection" content="telephone=no" />
   <link rel="stylesheet" href="/css/main.css" />
   <script>
-    window.PRELOAD_DATA = {
-      isLogin: false,
-      pusherClientId: "21ca65f345ffaeacb59b"
-    };
+    window.PRELOAD_DATA = {{ . }};
+
+    window.PRELOAD_DATA.pusherClientId = "21ca65f345ffaeacb59b"
   </script>
 </head>
 <body>

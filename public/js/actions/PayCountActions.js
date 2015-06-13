@@ -8,6 +8,12 @@ var PayCountActions = {
       type: ActionTypes.ADD_PAY_COUNT,
       data: data
     });
+  },
+
+  emptyPayCount: function(){
+    TTDispatcher.dispatch({
+      type: ActionTypes.EMPTY_PAY_COUNT
+    });
   }
 };
 

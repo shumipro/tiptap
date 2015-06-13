@@ -50,6 +50,10 @@ func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
 		return err
 	}
 
+	if len(queues) == 0 {
+		return nil
+	}
+
 	payOutReq := gopay.PaymentPayoutRequest{}
 
 	for idx, queue := range queues {
