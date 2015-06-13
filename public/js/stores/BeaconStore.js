@@ -11,4 +11,4 @@ BeaconStore.dispatchToken = Dispatcher.register((action)=> {
   }
 });
 
-module.exports = RootStore;
+module.exports = BeaconStore;
