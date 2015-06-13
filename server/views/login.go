@@ -13,7 +13,7 @@ import (
 	"gopkg.in/mgo.v2"
 
 	"github.com/shumipro/tiptap/server/login"
-	"github.com/shumipro/tiptap/server/models"
+	"github.com/shumipro/tiptap/server/repository"
 	"github.com/shumipro/tiptap/server/oauth"
 
 	"github.com/shumipro/tiptap/server/templates"
@@ -72,14 +72,14 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	}
 
 	var a login.Account
-	var user models.User
-	var userAuth models.UserAuth
+	var user repository.User
+	var userAuth repository.UserAuth
 	a, err = login.GetAccountBySession(ctx, r)
 	if err == nil {
 		// Twitterもしくはfacebookですでにでログイン済み
-		user, err = models.UsersTable.FindID(ctx, a.UserID)
+		user, err = repository.UsersRepository.FindID(ctx, a.UserID)
 	} else {
-		user, err = models.UsersTable.FindByTwitterID(ctx, twUser.Id)
+		user, err = repository.UsersRepository.FindByTwitterID(ctx, twUser.Id)
 	}
 	if err != nil && err != mgo.ErrNotFound {
 		panic(err)
@@ -92,7 +92,7 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 
 		userAuth.UserID = user.ID
 	} else {
-		userAuth, _ = models.UserAuthTable.FindID(ctx, user.ID)
+		userAuth, _ = repository.UserAuthRepository.FindID(ctx, user.ID)
 		// 登録済み更新
 		log.Println("とうろくずみ", user)
 
@@ -105,11 +105,11 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	user.TwitterUser = twUser
 	userAuth.TwitterToken = accessToken.Token
 
-	if err := models.UsersTable.Upsert(ctx, user); err != nil {
+	if err := repository.UsersRepository.Upsert(ctx, user); err != nil {
 		panic(err)
 	}
 
-	if err := models.UserAuthTable.Upsert(ctx, userAuth); err != nil {
+	if err := repository.UserAuthRepository.Upsert(ctx, userAuth); err != nil {
 		panic(err)
 	}
 
@@ -121,8 +121,8 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	http.Redirect(w, r, "/", 302)
 }
 
-func registerUser(name string) models.User {
-	user := models.User{}
+func registerUser(name string) repository.User {
+	user := repository.User{}
 	user.ID = uuid.New()
 	user.Name = name
 

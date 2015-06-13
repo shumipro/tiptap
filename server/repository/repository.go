@@ -1,4 +1,4 @@
-package models
+package repository
 
 import (
 	"github.com/kyokomi/goroku"
@@ -8,11 +8,11 @@ import (
 	"gopkg.in/mgo.v2/txn"
 )
 
-type modelsTable interface {
+type repository interface {
 	withCollection(ctx context.Context, fn func(c *mgo.Collection))
 }
 
-func findAndModify(t modelsTable, ctx context.Context, findQuery bson.M, query bson.M) error {
+func findAndModify(t repository, ctx context.Context, findQuery bson.M, query bson.M) error {
 	var result interface{}
 	var err error
 	t.withCollection(ctx, func(c *mgo.Collection) {
