@@ -6,6 +6,7 @@ var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 var request = require('superagent');
 var PayCountStore    = require('../../stores/PayCountStore');
+var PayCountActions  = require('../../actions/PayCountActions');
 
 // Component Call
 var {
@@ -35,7 +36,6 @@ export default class PayConfirm extends React.Component {
 
   convertDefaultState(state){
     if(state && state.tips){
-      console.log("payconfirm")
       // [{amount: "1.00", currency: "USD", userIcon: "/images/sample/pusheeer.png", userId: "12345", userName: "ぷっしゃーー"}...]
       // TODO: temp to handle multi performer
       // convert tips to performerList
@@ -101,7 +101,9 @@ export default class PayConfirm extends React.Component {
   }
   
   onClear() {
-    alert('支払い予定をクリアーしようぜ');
+    if(confirm('支払い予定をクリアーしますか？')){
+      PayCountActions.emptyPayCount()
+    }
   }
   
   onPay() {
@@ -164,7 +166,7 @@ export default class PayConfirm extends React.Component {
           </ul>
           
           <div className="PayPerformer__function">
-            <button className="function__clear" onClick={this.onClear}>
+            <button className="function__clear" onClick={this.onClear.bind(this)}>
               {clearLabel}
             </button>
             <button className="function__pay" onClick={this.onPay.bind(this)}>

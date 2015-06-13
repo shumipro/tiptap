@@ -17,6 +17,9 @@ PayCountStore.dispatchToken = TTDispatcher.register((action)=> {
       tips.push(action.data);
       PayCountStore.setState({tips: tips});
       break;
+    case ActionTypes.EMPTY_PAY_COUNT:
+      PayCountStore.setState({tips: []});
+      break;
     default:
       // no-op
   }

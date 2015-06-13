@@ -21,18 +21,18 @@ var _pusher = null,
 export default class Perfomer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-    }
+    this.state = PerformerStore.getState()
     this.setupPusher()
   }
 
   render(){
+    console.log(this.state)
     return (
       <div className="Page_Performer">
         <PerformerProfile performerId={this.props.params.performerId}
-          performerName={''}
-          performerDescription={''}
-          performerIconImage={''} />
+          performerName={this.state.performer_name}
+          performerDescription={this.state.description}
+          performerIconImage={this.state.performer_image_url} />
         <Tip performerId={this.props.params.performerId} />
       </div>
     );

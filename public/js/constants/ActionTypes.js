@@ -25,6 +25,8 @@ module.exports = keyMirror({
       Performer actions
     */
     UPDATE_PERFORMER: null,
-    ADD_PAY_COUNT: null
+    // pay count
+    ADD_PAY_COUNT: null,
+    EMPTY_PAY_COUNT: null
     
   });
