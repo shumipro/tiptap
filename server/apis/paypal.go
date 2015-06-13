@@ -94,13 +94,14 @@ func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	// TODO: mongoにpayoutキューとしてストアしておく
-	// TODO: payoutUserID単位でループ
-	payoutUserID := "hoge"
-
-	if err := service.Payout.AddPayoutQueue(ctx, payRes.ID, a.UserID, payoutUserID, "9.99", "USD"); err != nil {
-		renderer.JSON(w, 400, err.Error())
-		return
+	// mongoにpayoutキューとしてストアしておく
+	for _, p := range payData.Payments {
+		payoutUserID := p.PerformerID
+		err = service.Payout.AddPayoutQueue(ctx, payRes.ID, a.UserID, payoutUserID, p.Amount, p.Currency)
+		if err != nil {
+			// TODO: 辛いけど手オペ対応しないといけない airbrakeする
+			log.Println(err)
+		}
 	}
 
 	approvalURL := payRes.LinkByRel(gopay.RelApprovalURL).URL

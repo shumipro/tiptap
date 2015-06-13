@@ -16,13 +16,13 @@ type payoutService struct {
 }
 
 // AddPayoutQueue キュー追加
-func (s payoutService) AddPayoutQueue(ctx context.Context, paymentID string, payerUserID, payoutUserID string, amount repository.Amount, currency repository.Currency) error {
+func (s payoutService) AddPayoutQueue(ctx context.Context, paymentID string, payerUserID, payoutUserID string, amount string, currency string) error {
 	queue := repository.PayoutQueue{}
 	queue.PaymentID = paymentID
 	queue.PayerUserID = payerUserID
 	queue.PayoutUserID = payoutUserID
-	queue.Amount = amount
-	queue.Currency = currency
+	queue.Amount = repository.Amount(amount)
+	queue.Currency = repository.Currency(currency)
 	queue.State = repository.PayoutStateStart
 	queue.CreateAt = time.Now()
 	queue.UpdateAt = time.Now()
@@ -34,6 +34,7 @@ func (s payoutService) ReadyPayoutQueue(ctx context.Context, paymentID string) e
 	return repository.PayoutQueueRepository.UpdateStateByPaymentID(ctx, paymentID, repository.PayoutStateReady)
 }
 
+// TODO: パフォ−まーが自分のやつだけ処理する方式がよさそう?
 // ExecutePayoutQueue 溜まってるキューを処理
 func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
 	queues, err := repository.PayoutQueueRepository.FindByState(ctx, repository.PayoutStateReady)
