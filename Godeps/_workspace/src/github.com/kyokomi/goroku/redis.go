@@ -12,7 +12,7 @@ import (
 
 type redisDB string
 
-func MustRedis(ctx context.Context) *redis.Client {
+func MustRedis(ctx context.Context) (*redis.Client) {
 	db, ok := Redis(ctx)
 	if !ok {
 		panic("not found redis")

@@ -5,11 +5,10 @@ import (
 
 	"io"
 
-	"errors"
-
 	gocloud "github.com/gotsunami/go-cloudinary"
 	"github.com/kyokomi/cloudinary"
 	"golang.org/x/net/context"
+	"errors"
 )
 
 var (
