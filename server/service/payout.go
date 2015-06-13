@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"log"
+
 	"github.com/shumipro/tiptap/server/repository"
 	"golang.org/x/net/context"
 )
@@ -45,8 +47,11 @@ func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
 
 		fmt.Println(idx, queue)
 
-		// TODO: delete queue
-		fmt.Println("delete queue")
+		// end queue
+		err = repository.PayoutQueueRepository.UpdateStateByQueueID(ctx, queue.QueueID, repository.PayoutStateEnd)
+		if err != nil {
+			log.Println("UpdateStateByQueueID", err)
+		}
 	}
 
 	return nil

@@ -67,9 +67,15 @@ func (t _PayoutQueueRepository) FindByState(ctx context.Context, state PayoutSta
 	return
 }
 
+func (t _PayoutQueueRepository) UpdateStateByQueueID(ctx context.Context, queueID string, state PayoutState) error {
+	return findAndModify(t, ctx, bson.M{"_id": queueID}, bson.M{
+		"$set": bson.M{"state": state},
+	})
+}
+
 func (t _PayoutQueueRepository) UpdateStateByPaymentID(ctx context.Context, paymentID string, state PayoutState) error {
 	return findAndModify(t, ctx, bson.M{"paymentid": paymentID}, bson.M{
-		"state": state,
+		"$set": bson.M{"state": state},
 	})
 }
 
