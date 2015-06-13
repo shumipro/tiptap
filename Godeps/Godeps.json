@@ -67,6 +67,10 @@
 			"Rev": "ff8eb9a34a5cbb9941ffc6f84a19a8014c2646ad"
 		},
 		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "23f31c341b9ede4693ea642df2d2bd3c03c3bd8b"
+		},
+		{
 			"ImportPath": "gopkg.in/airbrake/gobrake.v1",
 			"Comment": "v1.1",
 			"Rev": "f12667a6c3bda272083682a04a05ee7a14e55378"
