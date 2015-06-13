@@ -1,0 +1,16 @@
+// : layout_header
+.layout_header
+  background Service_MainColor
+  width 100%
+  height Header_size
+  z-index Z_indexes[10]
+  retina-border('bottom', gunosy_separate_border, before)
+  position fixed
+  &:before
+    border-color rgba(0,0,0,.05)
+    bottom -1px
+
+.android_browser
+  .layout_header
+    position relative
+    margin-bottom Header_size * -1

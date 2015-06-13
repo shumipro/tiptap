@@ -1,0 +1,22 @@
+.ex-arrow
+  display block
+  transform rotate(45deg)
+  content ''
+  position absolute
+  top 50%
+  margin-top -2px
+
+arrow-right(size=5px, weight=1px, color=#dadada)
+  @extend .ex-arrow
+  width size
+  height size
+  border-top weight solid color
+  border-right weight solid color
+  
+  
+arrow-left(size=5px, weight=1px, color=#dadada)
+  @extend .ex-arrow
+  width size
+  height size
+  border-bottom weight solid color
+  border-left weight solid color
