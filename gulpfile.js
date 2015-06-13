@@ -30,6 +30,9 @@ gulp.task('stylus', function(){
 });
 
 gulp.task('build', function () {
+  if(argv.production){
+    webpackConfig.watch = false;
+  }
   return gulp.src(webpackConfig.entry.main[0])
     .pipe(webpack(webpackConfig))
     .pipe(gulpif(argv.production, uglify()))
@@ -57,3 +60,4 @@ gulp.task('watch', function () {
 });
 
 gulp.task('default', ['clean', 'stylus', 'build', 'serve', 'watch']);
+gulp.task('deploy', ['clean', 'stylus', 'build']);

@@ -11,5 +11,5 @@ dump.rdb
 tiptap
 _test
 
-public/dist/main.js
-public/css/main.css
+# public/dist/main.js
+# public/css/main.css
