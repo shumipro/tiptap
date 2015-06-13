@@ -18,8 +18,8 @@ export default class Regist extends React.Component {
     }
     
     this.oauthURL = {
-      facebook: '/OAuth/facebook/sample',
-      twitter: '/OAuth/twitter/sample'
+      facebook: '/login/facebook/ima-ha-tukawanai-yo!',
+      twitter: '/login/twitter'
     }
     
     this.text = {
@@ -41,9 +41,11 @@ export default class Regist extends React.Component {
     
     return (
       <nav className="Component_RegistNav">
-        <a href={facebookOAuthURL} className="RegistNav__button type_facebook">
-          {facebookLabel}
-        </a>
+        {/*
+          <a href={facebookOAuthURL} className="RegistNav__button type_facebook">
+            {facebookLabel}
+          </a>
+        */}
         <a href={twitterOAuthURL} className="RegistNav__button type_twitter">
           {twitterLabel}
         </a>
