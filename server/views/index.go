@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/guregu/kami"
+	"github.com/shumipro/tiptap/server/login"
 	"github.com/shumipro/tiptap/server/service"
 	"github.com/shumipro/tiptap/server/templates"
 	"github.com/shumipro/tiptap/server/viewmodels"
@@ -21,9 +22,15 @@ type IndexResponse struct {
 }
 
 func Index(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID := int64(1000)
+	userID := "GUEST"
+	a, ok := login.FromContext(ctx)
+	if ok {
+		userID = a.UserID
+	} else {
+		log.Println("未ログイン")
+	}
 
-	u, err := service.User.Get(userID)
+	u, err := service.User.Get(ctx, userID)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(w, r, "/error", 302)
