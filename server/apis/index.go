@@ -7,6 +7,7 @@ import (
 	"github.com/guregu/kami"
 	"golang.org/x/net/context"
 
+	"github.com/shumipro/tiptap/server/login"
 	"github.com/shumipro/tiptap/server/service"
 	vm "github.com/shumipro/tiptap/server/viewmodels"
 )
@@ -16,8 +17,15 @@ func init() {
 }
 
 func Index(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID := int64(1)
-	u, err := service.User.Get(userID)
+	userID := "GUEST"
+	a, ok := login.FromContext(ctx)
+	if ok {
+		userID = a.UserID
+	} else {
+		log.Println("未ログイン")
+	}
+
+	u, err := service.User.Get(ctx, userID)
 	if err != nil {
 		log.Println(err)
 		renderer.JSON(w, 400, err.Error())
