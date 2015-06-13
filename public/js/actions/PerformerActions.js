@@ -1,10 +1,10 @@
 var ActionTypes     = require('../constants').ActionTypes;
-var Dispatcher = require('../dispatcher');
+var TTDispatcher = require('../dispatcher');
 
 var PeformerActions = {
 
   updatePerformer: function() {
-    Dispatcher.dispatch({
+    TTDispatcher.dispatch({
       type: ActionTypes.UPDATE_PERFORMER
     });
   }
