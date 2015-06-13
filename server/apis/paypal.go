@@ -1,7 +1,9 @@
 package apis
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"bytes"
@@ -16,12 +18,23 @@ import (
 )
 
 func init() {
-	kami.Get("/payment/create", PaymentCreate)
+	kami.Post("/api/payment/create", PaymentCreate)
 	kami.Get("/payment/list", PaymentList)
 	kami.Get("/payment/done", PaymentDone)
 	kami.Get("/payment/payout", PaymentPayout)
 	kami.Get(paypal.PayPalReturnURL, PayPalPaymentExecute)
 	kami.Get(paypal.PayPalCancelURL, PayPalPaymentCancel)
+}
+
+type PaymentData struct {
+	Payments []PaymentItem `json:"payments"`
+	Total    string        `json:"total"`
+}
+
+type PaymentItem struct {
+	Currency    string `json:"currency"`
+	Amount      string `json:"amount"`
+	PerformerID string `json:"performer_id"`
 }
 
 func PaymentList(ctx context.Context, w http.ResponseWriter, r *http.Request) {
@@ -41,6 +54,21 @@ func PaymentList(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Println("ERROR!", err)
+		renderer.JSON(w, 400, err.Error())
+		return
+	}
+
+	// convert request params to struct
+	var payData PaymentData
+	if err := json.Unmarshal(data, &payData); err != nil {
+		log.Println("ERROR! json parse", err)
+		renderer.JSON(w, 400, err.Error())
+		return
+	}
+
 	a, ok := login.FromContext(ctx)
 	if !ok {
 		renderer.JSON(w, 401, "not login user")
@@ -53,17 +81,20 @@ func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	// TODO: params?
+	// totalの支払いだけシステムへ行う
+	fmt.Println(string(payData.Total))
 	payReq := client.PaymentCreateReq(gopay.Amount{
-		Total:    "9.99",
+		Total:    payData.Total,
 		Currency: "USD",
-	}, "example payment")
+	}, "Total Payment")
+
 	payRes, err := client.Payment.Create(payReq)
 	if err != nil {
 		renderer.JSON(w, 400, err.Error())
 		return
 	}
 
+	// TODO: mongoにpayoutキューとしてストアしておく
 	// TODO: payoutUserID単位でループ
 	payoutUserID := "hoge"
 
@@ -73,7 +104,12 @@ func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 	}
 
 	approvalURL := payRes.LinkByRel(gopay.RelApprovalURL).URL
-	http.Redirect(w, r, approvalURL, 302)
+
+	fmt.Println(string(approvalURL))
+
+	result := map[string]string{"approvalURL": approvalURL}
+
+	renderer.JSON(w, 200, result)
 }
 
 // TODO: 廃止予定

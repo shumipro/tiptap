@@ -8,12 +8,14 @@ var joinClasses = require('react/lib/joinClasses');
 // Component Call
 var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
 
+// constants
+var text = {
+  title: "Performer Profie",
+  noDescription: "自己紹介を入力中"
+}
+
 export default class PerformerProfile extends React.Component {
   
-  text: {
-    title: "Performer Profie",
-    noDescription: "自己紹介を入力中"
-  }
   
   constructor(props) {
     super(props)
@@ -36,7 +38,7 @@ export default class PerformerProfile extends React.Component {
     var {
       title,
       noDescription
-    } = this.text;
+    } = text;
     
     var {
       performerId,

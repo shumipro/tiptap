@@ -7,9 +7,10 @@ import (
 	"github.com/guregu/kami"
 	"golang.org/x/net/context"
 
+	"strconv"
+
 	"github.com/shumipro/tiptap/server/service"
 	vm "github.com/shumipro/tiptap/server/viewmodels"
-	"strconv"
 )
 
 func init() {

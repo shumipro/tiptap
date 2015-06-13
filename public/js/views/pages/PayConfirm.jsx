@@ -4,6 +4,7 @@
 var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
+var request = require('superagent');
 
 // Component Call
 var {
@@ -67,11 +68,45 @@ export default class PayConfirm extends React.Component {
   }
   
   onPay() {
-    alert('支払おうぜ');
+    // create payment data
+    var data = {
+      total: "",
+      payments: []
+    };
+    var totalPayValue = 0;
+
+    this.props.performerList.map((performer, key) => {
+      var {
+        performerId,
+        performerName,
+        performerIconImage,
+        performerDescription,
+        performerPayValue
+      } = performer;
+
+      data.payments.push({
+         "performer_id": performerId,
+         "amount": performerPayValue + ".00",
+         "currency": "USD"
+      });
+      totalPayValue += performerPayValue;
+    });
+    data.total = totalPayValue + ".00"
+
+    // send post
+    request
+      .post('/api/payment/create')
+      .send(data)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        var redirect = res && res.body && res.body.approvalURL
+        if(redirect){
+          location.href = redirect
+        }
+      })
   }
   
   render(){
-  
     var {} = this.state;
     
     var {
@@ -86,7 +121,6 @@ export default class PayConfirm extends React.Component {
           <h1 className="PayPerformer__heading">
             {heading}
           </h1>
-          
           <ul className="PayPerformer__list">
             {this.getPerformerList()}
           </ul>
@@ -95,7 +129,7 @@ export default class PayConfirm extends React.Component {
             <button className="function__clear" onClick={this.onClear}>
               {clearLabel}
             </button>
-            <button className="function__pay" onClick={this.onPay}>
+            <button className="function__pay" onClick={this.onPay.bind(this)}>
               {payLabel}
             </button>
           </div>
@@ -109,21 +143,21 @@ export default class PayConfirm extends React.Component {
 PayConfirm.defaultProps = {
   performerList: [
     {
-      performerId: 0,
+      performerId: "0",
       performerName: 'ピエーロ瀧',
       performerDescription: 'ジャグリングやってます。30年近くも。どうしようもないですね。',
       performerIconImage: '/images/sample/user-icon_performer.png',
       performerPayValue: 1
     },
     {
-      performerId: 1,
+      performerId: "1",
       performerName: 'チェロ弾き',
       performerDescription: 'チェロ弾いてます。100年近くも。まだがんばる！',
       performerIconImage: '/images/sample/user-icon_performer.png',
       performerPayValue: 15
     },
     {
-      performerId: 2,
+      performerId: "2",
       performerName: 'わーいわいわいわい',
       performerDescription: 'わーい',
       performerIconImage: '/images/sample/user-icon_performer.png',
