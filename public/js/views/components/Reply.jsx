@@ -1,5 +1,5 @@
 /**
-  Component: Preloader
+  Component: Reply Modal
 */
 var React   = require('react');
 var Link    = require('react-router').Link;
@@ -9,7 +9,7 @@ var joinClasses = require('react/lib/joinClasses');
 var {
 } = require('../components');
 
-export default class Preloader extends React.Component {
+export default class Reply extends React.Component {
   
   constructor(props) {
     super(props)
@@ -20,9 +20,9 @@ export default class Preloader extends React.Component {
   render(){
     
     return (
-      <i className="Component_Preloader">
-        load...
-      </i>
+      <div>
+        Modal Reply
+      </div>
     );
   }
 }

@@ -1,5 +1,5 @@
 /**
-  Component: Preloader
+  Component: Pusher Modal
 */
 var React   = require('react');
 var Link    = require('react-router').Link;
@@ -9,7 +9,9 @@ var joinClasses = require('react/lib/joinClasses');
 var {
 } = require('../components');
 
-export default class Preloader extends React.Component {
+export default class Pusher extends React.Component {
+  
+  text: {}
   
   constructor(props) {
     super(props)
@@ -19,10 +21,12 @@ export default class Preloader extends React.Component {
   
   render(){
     
+    var {} = this.text;
+    
     return (
-      <i className="Component_Preloader">
-        load...
-      </i>
+      <aside className="Component_Pusher">
+        Pusher Modal
+      </aside>
     );
   }
 }

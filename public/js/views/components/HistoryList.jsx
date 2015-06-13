@@ -1,5 +1,5 @@
 /**
-  Component: Preloader
+  Component: History List
 */
 var React   = require('react');
 var Link    = require('react-router').Link;
@@ -9,7 +9,9 @@ var joinClasses = require('react/lib/joinClasses');
 var {
 } = require('../components');
 
-export default class Preloader extends React.Component {
+export default class HistoryList extends React.Component {
+  
+  text: {}
   
   constructor(props) {
     super(props)
@@ -19,10 +21,12 @@ export default class Preloader extends React.Component {
   
   render(){
     
+    var {} = this.text;
+    
     return (
-      <i className="Component_Preloader">
-        load...
-      </i>
+      <section className="Component_HistoryList">
+        History List...
+      </section>
     );
   }
 }

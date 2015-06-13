@@ -1,15 +1,10 @@
 import { polyfill } from 'es6-promise'
 polyfill();
 
-//import getUA from './utils/ua'
 import React from 'react'
 import joinClasses from 'react/lib/joinClasses'
 import Router from 'react-router'
-
-import CoinFallCrl from './views/components/CoinFallCtrl'
-
-var coinFallCtrlNode = document.getElementById('coinFallCtrl')
-coinFallCtrlNode && React.render(<CoinFallCrl />, coinFallCtrlNode)
+import getUA from './utils/ua'
 
 /**
   RootStoreを定義とか...
@@ -18,48 +13,8 @@ coinFallCtrlNode && React.render(<CoinFallCrl />, coinFallCtrlNode)
 
 
 /**
-  Router定義するならここに書いていく
-  
-  
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
-  }
-  
-  render(){
-    return (
-      <div className="Layout_container">
-        <Preloader />
-        <MenuModal />
-        <main className={joinClasses(
-          'layout_main'
-        )}>
-          <RouteHandler />
-        </main>
-      </div>
-    )
-  }
-}
-
-
-var routes = (
-  <Route name='Top' path='/' handler={App}>
-  
-    <DefaultRoute handler={Top} />
-    <NotFoundRoute handler={NotFound} />
-  
-  </Route>
-);
-
-// render
-Router.run(routes, (Handler, state)=> {
-  React.render(<Handler />, document.getElementById("app"));
-});
-
+  Router
 */
-
 var {
   Route,
   DefaultRoute,
@@ -69,6 +24,7 @@ var {
 
 // Components Call
 var {
+  Header
 } = require('./views/components');
 
 // Page Component Call
@@ -85,7 +41,8 @@ export default class App extends React.Component {
   
   render(){
     return (
-      <div>
+      <div className="layout_view">
+        <Header />
         <RouteHandler />
       </div>
     );
@@ -96,7 +53,6 @@ var routes = (
   <Route name='Top' path='/' handler={App}>
   
     <DefaultRoute handler={Top} />
-    {/*<NotFoundRoute handler={NotFound} /> */}
   
   </Route>
 );
