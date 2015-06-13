@@ -1,0 +1,26 @@
+list-item(n=3)
+
+  .Component__thumbs_image
+    border-radius Border_radius[1]
+    max-height 80px
+
+  if n == 3
+    width 31%
+    min-width 90px
+    margin-right 2%
+
+  if n == 1
+    width 100%
+    min-width 300px
+    margin-right Space_sizes[1]
+
+    .Component__thumbs_image
+      border-radius 0
+
+  if n == 0
+    width 100%
+    min-width 300px
+    margin-right Space_sizes[1]
+
+    .Component_thumbs-image
+      width 120px

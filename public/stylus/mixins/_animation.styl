@@ -1,0 +1,24 @@
+trans_opacity(time=.2s)
+  transition opacity time ease-out
+
+trans_background(time=.2s)
+  transition background time ease-out
+  
+easeOutLinear(time=.2s, elm=all)
+  transition elm time ease-out
+
+easeOutExpo(time=.2s, elm=all)
+  transition elm time cubic-bezier(0.19, 1, 0.22, 1)
+  
+easeInOutQuint(time=.2s, elm=all)
+  transition elm time cubic-bezier(0.860, 0.000, 0.070, 1.000)
+
+easeOutQuint(time=.2s, elm=all)
+  transition elm time cubic-bezier(0.23, 1, 0.32, 1)
+  
+easeInOutBack(time=.2s, elm=all)
+  transition elm time cubic-bezier(0.680, 0, 0.265, 1) 
+
+easeOutBack(time=.2s, elm=all)
+  transition elm time cubic-bezier(.17,1.22,.58,1.05)
+
