@@ -3,10 +3,9 @@ package goroku
 import (
 	"os"
 
-	"strconv"
-
 	"golang.org/x/net/context"
 	"gopkg.in/airbrake/gobrake.v1"
+	"strconv"
 )
 
 type airbrakeKey string

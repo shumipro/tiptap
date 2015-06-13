@@ -3,11 +3,6 @@
 	"GoVersion": "go1.4.2",
 	"Deps": [
 		{
-			"ImportPath": "github.com/bitly/go-simplejson",
-			"Comment": "v0.4.3-30-g18db6e6",
-			"Rev": "18db6e68d8fd9cbf2e8ebe4c81a78b96fd9bf05a"
-		},
-		{
 			"ImportPath": "github.com/gotsunami/go-cloudinary",
 			"Rev": "b7d418f8e8d160a25e3e3c7bb63720ea1a40844e"
 		},
@@ -20,11 +15,6 @@
 			"Rev": "8c199fb6259ffc1af525cc3ad52ee60ba8359669"
 		},
 		{
-			"ImportPath": "github.com/k0kubun/pp",
-			"Comment": "v2.1.0-3-gd41d644",
-			"Rev": "d41d6445d773ca20b8685f84734ec1924136c7f9"
-		},
-		{
 			"ImportPath": "github.com/kyokomi/cloudinary",
 			"Rev": "b4d50f43b0e717259ac085007ed2592ea87b2b3c"
 		},
@@ -34,11 +24,7 @@
 		},
 		{
 			"ImportPath": "github.com/kyokomi/paypal",
-			"Rev": "a5029b6af9fb1785ceaceaf75f726e71a3376b38"
-		},
-		{
-			"ImportPath": "github.com/mattn/go-colorable",
-			"Rev": "d67e0b7d1797975196499f79bcc322c08b9f218b"
+			"Rev": "f402403696efc00dd4303c4f2b1f85d9b7474a3a"
 		},
 		{
 			"ImportPath": "github.com/microcosm-cc/bluemonday",
@@ -79,10 +65,6 @@
 		{
 			"ImportPath": "golang.org/x/net/html",
 			"Rev": "ff8eb9a34a5cbb9941ffc6f84a19a8014c2646ad"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2",
-			"Rev": "23f31c341b9ede4693ea642df2d2bd3c03c3bd8b"
 		},
 		{
 			"ImportPath": "gopkg.in/airbrake/gobrake.v1",
