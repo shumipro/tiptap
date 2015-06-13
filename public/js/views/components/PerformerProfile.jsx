@@ -11,18 +11,18 @@ var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
 // constants
 var text = {
   title: "Performer Profie",
-  noDescription: "自己紹介を入力中"
+  noDescription: "【サンプル】はじめまして。私はピーターといいます。普段はフランス・パリの凱旋門の真下でサーカス芸をしています。一番の得意技はバルーン・パフォーマンスです:)是非見に来てくださいね♪"
 }
 
 export default class PerformerProfile extends React.Component {
-  
-  
+
+
   constructor(props) {
     super(props)
     this.state = {
     }
   }
-  
+
   // get API to Props
   getDefaultProps() {
     return  {
@@ -32,23 +32,29 @@ export default class PerformerProfile extends React.Component {
       performerIcon: '/images/sample/user-icon_performer.png'
     };
   }
-  
+
   render(){
-    
+
     var {
       title,
       noDescription
     } = text;
-    
+
     var {
       performerId,
       performerName,
       performerDescription,
       performerIconImage
     } = this.props;
-    
+
     return (
       <section className="Component_PerformerProfile">
+        <ThumbsBackgroundImage imgPath={performerIconImage} />
+        { !!performerDescription &&
+          <div className="PerformerProfile__description">
+            {performerDescription}
+          </div>
+        }
         <h1 className="PerformerProfile__name">
           {title}
         </h1>
@@ -56,12 +62,6 @@ export default class PerformerProfile extends React.Component {
           <figcaption>
             {performerName}
           </figcaption>
-          <ThumbsBackgroundImage imgPath={performerIconImage} />
-          { !!performerDescription &&
-            <div className="PerformerProfile__description">
-              {performerDescription}
-            </div>
-          }
           { !performerDescription &&
             <div className="PerformerProfile__description type_none">
               {noDescription}

@@ -25,7 +25,7 @@ export default class Perfomer extends React.Component {
     }
     this.setupPusher()
   }
-  
+
   render(){
     return (
       <div className="Page_Performer">
@@ -38,7 +38,7 @@ export default class Perfomer extends React.Component {
     );
   }
 
-  setupPusher(performerId) {    
+  setupPusher(performerId) {
     if(!_pusher){
       _pusher = new Pusher(PRELOAD_DATA.pusherClientId);
       _channel = _pusher.subscribe(this.props.params.performerId);
