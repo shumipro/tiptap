@@ -16,9 +16,12 @@ import (
 	"github.com/shumipro/tiptap/server/paypal"
 	"github.com/shumipro/tiptap/server/templates"
 
-	_ "github.com/shumipro/tiptap/server/oauth"
 	_ "github.com/shumipro/tiptap/server/apis"
+	"github.com/shumipro/tiptap/server/oauth"
+	_ "github.com/shumipro/tiptap/server/oauth"
+	"github.com/shumipro/tiptap/server/twitter"
 	_ "github.com/shumipro/tiptap/server/views"
+	"github.com/shumipro/tiptap/server/login"
 )
 
 // Serve start Serve
@@ -35,6 +38,11 @@ func Serve() {
 	ctx = goroku.NewCloudinary(ctx)
 	ctx = goroku.NewAirbrake(ctx, "production")
 
+
+	ctx = login.NewSessionStore(ctx)
+	ctx = twitter.NewContext(ctx)
+	ctx = oauth.WithTwitter(ctx)
+
 	ctx = paypal.NewPayPalClient(ctx)
 
 	ctx = templates.InitTemplates(ctx, "./")
@@ -44,6 +52,7 @@ func Serve() {
 
 	// middleware
 	kami.Use("/", secureRedirect)
+	kami.Use("/", login.Login)
 
 	fileServer := http.FileServer(http.Dir("public"))
 	for _, name := range []string{
