@@ -20,6 +20,5 @@ test:
 deployment:
   production:
     branch: master
-    commands:
-      #- cloudinarycmd -dir public/img -prepend img -uri $CLOUDINARY_URL
-      - git push git@heroku.com:bigtiptap.git $CIRCLE_SHA1:master
+    heroku:
+      appname: bigtiptap
