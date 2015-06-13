@@ -105,6 +105,10 @@ func AuthTwitterCallback(ctx context.Context, w http.ResponseWriter, r *http.Req
 	user.TwitterUser = twUser
 	userAuth.TwitterToken = accessToken.Token
 
+	// TODO: 一旦Beaconは固定
+	user.Beacon.MajorID = 42051
+	user.Beacon.MinorID = 29428
+
 	if err := repository.UsersRepository.Upsert(ctx, user); err != nil {
 		panic(err)
 	}

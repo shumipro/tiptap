@@ -33,6 +33,8 @@ func (t userService) Get(ctx context.Context, userID string) (domain.User, error
 	}
 	u.UserID = user.ID
 	u.UserName = user.Name
+	u.UserImageURL = user.IconImageURL()
+	u.Description = user.TwitterUser.Description
 
 	return u, nil
 }

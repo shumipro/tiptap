@@ -20,8 +20,14 @@ type User struct {
 	HomePageURL   string        `             	 json:"HomePageURL"`    // ウェブサイトURL
 	GitHubURL     string        `             	 json:"GitHubURL"`      // Github URL
 	TwitterUser   anaconda.User `bson:"twitter"  json:"TwitterUser"`   // Twitterのshows情報
-	CreateAt      time.Time     `                json:"-"`
-	UpdateAt      time.Time     `                json:"-"`
+	Beacon        Beacon
+	CreateAt      time.Time `                json:"-"`
+	UpdateAt      time.Time `                json:"-"`
+}
+
+type Beacon struct {
+	MajorID int64
+	MinorID int64
 }
 
 func (u User) IconImageURL() string {
@@ -72,6 +78,16 @@ func (t _UsersRepository) withCollection(ctx context.Context, fn func(c *mgo.Col
 func (t _UsersRepository) FindID(ctx context.Context, userID string) (result User, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.FindId(userID).One(&result)
+	})
+	return
+}
+
+func (t _UsersRepository) FindByBeacon(ctx context.Context, majorID int64, minorID int64) (result User, err error) {
+	t.withCollection(ctx, func(c *mgo.Collection) {
+		err = c.Find(bson.M{
+			"beacon.majorid": majorID,
+			"beacon.minorid": minorID,
+		}).One(&result)
 	})
 	return
 }
