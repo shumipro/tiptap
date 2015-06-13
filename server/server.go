@@ -17,11 +17,12 @@ import (
 	"github.com/shumipro/tiptap/server/templates"
 
 	_ "github.com/shumipro/tiptap/server/apis"
+	"github.com/shumipro/tiptap/server/application"
+	"github.com/shumipro/tiptap/server/login"
 	"github.com/shumipro/tiptap/server/oauth"
 	_ "github.com/shumipro/tiptap/server/oauth"
 	"github.com/shumipro/tiptap/server/twitter"
 	_ "github.com/shumipro/tiptap/server/views"
-	"github.com/shumipro/tiptap/server/login"
 )
 
 // Serve start Serve
@@ -38,7 +39,6 @@ func Serve() {
 	ctx = goroku.NewCloudinary(ctx)
 	ctx = goroku.NewAirbrake(ctx, "production")
 
-
 	ctx = login.NewSessionStore(ctx)
 	ctx = twitter.NewContext(ctx)
 	ctx = oauth.WithTwitter(ctx)
@@ -46,6 +46,8 @@ func Serve() {
 	ctx = paypal.NewPayPalClient(ctx)
 
 	ctx = templates.InitTemplates(ctx, "./")
+
+	application.RefreshPayoutQueue(ctx)
 
 	kami.Context = ctx
 	kami.PanicHandler = errors.PanicHandler

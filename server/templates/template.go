@@ -31,8 +31,8 @@ func init() {
 
 type Config struct {
 	StaticPath string `json:"static_path"`
-	//	User         models.User             `json:"user"`
-	//	Notification models.UserNotification `json:"notification"`
+	//	User         repository.User             `json:"user"`
+	//	Notification repository.UserNotification `json:"notification"`
 }
 
 type TemplateHeader struct {
@@ -43,7 +43,7 @@ type TemplateHeader struct {
 	OgURL       string
 	OgImageURL  string
 	Config      Config `json:"config"`
-	//	Constants   models.Constants `json:"constants"`
+	//	Constants   repository.Constants `json:"constants"`
 }
 
 func (t TemplateHeader) EscapeNewline(text string) template.HTML {

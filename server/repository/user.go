@@ -1,4 +1,4 @@
-package models
+package repository
 
 import (
 	"fmt"
@@ -52,38 +52,38 @@ func (u User) IsEmpty() bool {
 	return u.ID == ""
 }
 
-type _UsersTable struct {
+type _UsersRepository struct {
 }
 
-func (_ _UsersTable) Name() string {
+func (_ _UsersRepository) Name() string {
 	return "users"
 }
 
-var _ modelsTable = (*_UsersTable)(nil)
+var _ repository = (*_UsersRepository)(nil)
 
-var UsersTable = _UsersTable{}
+var UsersRepository = _UsersRepository{}
 
-func (t _UsersTable) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
+func (t _UsersRepository) withCollection(ctx context.Context, fn func(c *mgo.Collection)) {
 	withDefaultCollection(ctx, t.Name(), fn)
 }
 
 // ----------------------------------------------
 
-func (t _UsersTable) FindID(ctx context.Context, userID string) (result User, err error) {
+func (t _UsersRepository) FindID(ctx context.Context, userID string) (result User, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.FindId(userID).One(&result)
 	})
 	return
 }
 
-func (t _UsersTable) FindByTwitterID(ctx context.Context, twitterID int64) (result User, err error) {
+func (t _UsersRepository) FindByTwitterID(ctx context.Context, twitterID int64) (result User, err error) {
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		err = c.Find(bson.M{"twitter.id": twitterID}).One(&result)
 	})
 	return
 }
 
-func (t _UsersTable) FindByKeyword(ctx context.Context, keyword string) (results []User, err error) {
+func (t _UsersRepository) FindByKeyword(ctx context.Context, keyword string) (results []User, err error) {
 	regexWord := fmt.Sprintf(".*%s.*", keyword)
 	fmt.Println("Keyword = ", regexWord)
 
@@ -97,7 +97,7 @@ func (t _UsersTable) FindByKeyword(ctx context.Context, keyword string) (results
 }
 
 // Upsert 登録
-func (t _UsersTable) Upsert(ctx context.Context, user User) error {
+func (t _UsersRepository) Upsert(ctx context.Context, user User) error {
 	var err error
 	t.withCollection(ctx, func(c *mgo.Collection) {
 		var result interface{} // bson.M
