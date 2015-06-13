@@ -7,6 +7,8 @@ var joinClasses = require('react/lib/joinClasses');
 
 // Component Call
 var {
+  PerformerProfile,
+  Tip
 } = require('../components');
 
 export default class Perfomer extends React.Component {
@@ -19,7 +21,8 @@ export default class Perfomer extends React.Component {
   render(){
     return (
       <div className="Page_Performer">
-        Perfomer
+        <PerformerProfile />
+        <Tip />
       </div>
     );
   }
