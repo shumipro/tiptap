@@ -141,7 +141,7 @@ export default class PayConfirm extends React.Component {
       .end(function(err, res){
         var redirect = res && res.body && res.body.approvalURL
         if(redirect){
-          location.href = "tiptap://" + redirect
+          location.href = redirect
         }
       })
   }
