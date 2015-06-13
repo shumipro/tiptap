@@ -52,7 +52,20 @@ export default class App extends React.Component {
 var routes = (
   <Route name='Top' path='/' handler={App}>
   
+    {/* Top Page */}
     <DefaultRoute handler={Top} />
+    
+    {/* Performer Page */}
+    <Route handler={Performer} path='/performer/:performerId'  />
+    
+    {/* PayHistory Page */}
+    <Route handler={PayHistory} path='/history/pay/' />
+  
+    {/* GivenHistory Page */}
+    <Route handler={GivenHistory} path='/history/given/' />
+    
+    {/* Pay Confirm Page */}
+    <Route handler={PayConfirm} />
   
   </Route>
 );
