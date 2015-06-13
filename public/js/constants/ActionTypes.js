@@ -1,8 +1,6 @@
 import keyMirror from 'keymirror';
 
-export default {
-  
-  ActionTypes: keyMirror({
+module.exports = keyMirror({
     
     /**
       Menu Modal actions
@@ -26,8 +24,7 @@ export default {
     /**
       Performer actions
     */
-    UPDATE_PERFORMER: null
+    UPDATE_PERFORMER: null,
+    ADD_PAY_COUNT: null
     
-  })
-  
-};
+  });

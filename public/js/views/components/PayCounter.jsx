@@ -4,6 +4,7 @@
 var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
+var PayCountStore    = require('../../stores/PayCountStore');
 
 // Component Call
 var {
@@ -23,6 +24,22 @@ export default class PayCounter extends React.Component {
     }
     
   }
+
+  /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
+  _setState(state) {
+    // increment count
+    if(state && state.tips){
+      this.setState({count: state.tips.length});
+    }
+  }
+  
+  /* LifeCycleでStoreを監視 */
+  componentDidMount() {
+    PayCountStore.on('change:state', this._setState.bind(this));
+  }
+  componentWillUnMount() {
+    PayCountStore.removeListener('change:state', this._setState.bind(this));
+  }
   
   render(){
     
@@ -37,7 +54,7 @@ export default class PayCounter extends React.Component {
     return (
       <div className="Component_PayCount">
         { count > 0 && 
-          <Link to="PayConfirm">
+          <Link to="/payconfirm/">
             <button className="PayCounte__button">
               {payButtonLabel}
             </button>

@@ -5,17 +5,18 @@ var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
-var PerformerStore   = require('../../stores/PerformerStore'),
-    PerformerActions = require('../../actions/PerformerActions'),
-    PusherStore    = require('../../stores/PusherStore'),
-    PusherActions  = require('../../actions/PusherActions');
-
+var PusherActions  = require('../../actions/PusherActions');
+var PerformerStore    = require('../../stores/PerformerStore');
 
 // Component Call
 var {
   PerformerProfile,
   Tip
 } = require('../components');
+
+// TODO: temp workaround
+var _pusher = null,
+    _channel = null;
 
 export default class Perfomer extends React.Component {
   constructor(props) {
@@ -37,25 +38,35 @@ export default class Perfomer extends React.Component {
     );
   }
 
-  setupPusher(performerId) {
-    /*
-    PusherActions.setPusherData({
-      userId  : 0,
-      userName: "ぷっしゃーー",
-      userIcon: "/images/sample/pusheeer.png",
-      payValue: 1
-    });
-    PusherActions.openPusherModal();
-    */
-    
-    this._pusher = new Pusher(PRELOAD_DATA.pusherClientId);
-    var channel = this._pusher.subscribe(this.props.params.performerId);
-    // unsubscribe all channels
-    channel.unbind();
-    channel.bind('pay', function(data) {
-      alert("payed!: " + data.amount);
-      // TODO: use Pusher.jsx?
+  setupPusher(performerId) {    
+    if(!_pusher){
+      _pusher = new Pusher(PRELOAD_DATA.pusherClientId);
+      _channel = _pusher.subscribe(this.props.params.performerId);
+      _channel.bind('pay', function(data) {
+        // alert("payed!: " + JSON.stringify(data));
+        data.payValue = data.payValue || 1
+        data.show = true
+        PusherActions.setPusherData(data);
+        // PusherActions.openPusherModal();
+      });
+    }
+  }
 
-    });
+  componentWillUnMount() {
+    // unsubscribe all channels
+    _channel && _channel.unbind();
+  }
+
+  /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
+  _setState(state) {
+    console.log("_setState",state);
+    this.setState(state);
+  }
+
+  componentDidMount() {
+    PerformerStore.on('change:state', this._setState.bind(this));
+  }
+  componentWillUnMount() {
+    PerformerStore.removeListener('change:state', this._setState.bind(this));
   }
 }

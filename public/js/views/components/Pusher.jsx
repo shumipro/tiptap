@@ -19,6 +19,7 @@ export default class Pusher extends React.Component {
     
     /* Componentの呼び出しの際にStoreを初期化 */
     this.state = PusherStore.initState()
+    //this.state = {}
     
     this.text = {
       thanks: 'Thanks!',
@@ -35,10 +36,10 @@ export default class Pusher extends React.Component {
   
   /* LifeCycleでStoreを監視 */
   componentDidMount() {
-    PusherStore.on('change:state', this._setState);
+    PusherStore.on('change:state', this._setState.bind(this));
   }
   componentWillUnMount() {
-    PusherStore.removeListener('change:state', this._setState);
+    PusherStore.removeListener('change:state', this._setState.bind(this));
   }
   
   /* PusherComponent側から閉じたい時に呼ぶ */

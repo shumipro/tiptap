@@ -20,10 +20,11 @@ var PusherActions = {
   setPusherData: function(data) {
     TTDispatcher.dispatch({
       type    : ActionTypes.SET_PUSHER_DATA,
-      userId  : data.id,
+      userId  : data.userId,
       userName: data.userName || "No Name",
       userIcon: data.userIcon || null,
-      payValue: data.payValue || 0
+      payValue: data.payValue || 0,
+      show: data.show || false
     }); 
   }
 };
