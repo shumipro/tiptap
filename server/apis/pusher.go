@@ -8,6 +8,8 @@ import (
 
 	"github.com/guregu/kami"
 	"github.com/pusher/pusher-http-go"
+	"github.com/shumipro/tiptap/server/login"
+	"github.com/shumipro/tiptap/server/service"
 	"golang.org/x/net/context"
 )
 
@@ -79,23 +81,34 @@ func PusherPay(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := pusher.Client{
+	pushClient := pusher.Client{
 		AppId:  PusherAppId,
 		Key:    PusherKey,
 		Secret: PusherSecret,
 	}
 
-	// TODO: set User Info
+	userID := service.GuestUser
+	a, ok := login.FromContext(ctx)
+	if ok {
+		userID = a.UserID
+	}
+	user, err := service.User.Get(ctx, userID)
+	if err != nil {
+		log.Println("ERROR! json parse", err)
+		renderer.JSON(w, 400, err.Error())
+		return
+	}
+
 	result := map[string]string{
 		"amount":   payReq.Amount,
 		"currency": payReq.Currency,
-		"userId":   "12345",
-		"userName": "ぷっしゃーー",
-		"userIcon": "/images/sample/pusheeer.png",
+		"userId":   user.UserID,
+		"userName": user.UserName,
+		"userIcon": user.UserImageURL,
 	}
 
 	// pusher trigger
-	client.Trigger(payReq.PerformerID, "pay", result)
+	pushClient.Trigger(payReq.PerformerID, "pay", result)
 
 	renderer.JSON(w, 200, result)
 }
