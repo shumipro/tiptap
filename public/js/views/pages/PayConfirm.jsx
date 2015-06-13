@@ -5,6 +5,7 @@ var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 var request = require('superagent');
+var PayCountStore    = require('../../stores/PayCountStore');
 
 // Component Call
 var {
@@ -17,7 +18,8 @@ export default class PayConfirm extends React.Component {
   constructor(props) {
     super(props)
     
-    this.state = {}
+    // convert from store
+    this.state = this.convertDefaultState(PayCountStore.getState())
     
     this.text = {
       heading: 'PayPalでチップを支払いますか?',
@@ -25,12 +27,47 @@ export default class PayConfirm extends React.Component {
       payLabel: 'チップを支払う'
     }
   }
+
+  /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
+  _setState(state) {
+    this.setState(this.convertDefaultState(state));
+  }
+
+  convertDefaultState(state){
+    if(state && state.tips){
+      console.log("payconfirm")
+      // [{amount: "1.00", currency: "USD", userIcon: "/images/sample/pusheeer.png", userId: "12345", userName: "ぷっしゃーー"}...]
+      // TODO: temp to handle multi performer
+      // convert tips to performerList
+      var data = {};
+      state.tips.map((tip, key)=>{
+        data = {
+          performerId: tip.userId,
+          performerName: tip.userName,
+          performerIconImage: tip.userIcon,
+        }
+      });
+      // set total tip count
+      data.performerPayValue = state.tips.length;
+      return {performerList: [data]};
+    }
+    return {performerList: []};
+  }
+  
+  /* LifeCycleでStoreを監視 */
+  componentDidMount() {
+    PayCountStore.on('change:state', this._setState.bind(this));
+  }
+
+  componentWillUnMount() {
+    PayCountStore.removeListener('change:state', this._setState.bind(this));
+  }
   
   getPerformerList() {
     var doller = '$';
     var {
       performerList 
-    } = this.props;
+    } = this.state;
     return performerList.map( (performer, key) =>{
       var {
         performerId,
@@ -76,7 +113,7 @@ export default class PayConfirm extends React.Component {
     };
     var totalPayValue = 0;
 
-    this.props.performerList.map((performer, key) => {
+    this.state.performerList.map((performer, key) => {
       var {
         performerId,
         performerName,
@@ -141,28 +178,28 @@ export default class PayConfirm extends React.Component {
 }
 
 // get API to Props
-PayConfirm.defaultProps = {
-  performerList: [
-    {
-      performerId: "0",
-      performerName: 'ピエーロ瀧',
-      performerDescription: 'ジャグリングやってます。30年近くも。どうしようもないですね。',
-      performerIconImage: '/images/sample/user-icon_performer.png',
-      performerPayValue: 1
-    },
-    {
-      performerId: "1",
-      performerName: 'チェロ弾き',
-      performerDescription: 'チェロ弾いてます。100年近くも。まだがんばる！',
-      performerIconImage: '/images/sample/user-icon_performer.png',
-      performerPayValue: 15
-    },
-    {
-      performerId: "2",
-      performerName: 'わーいわいわいわい',
-      performerDescription: 'わーい',
-      performerIconImage: '/images/sample/user-icon_performer.png',
-      performerPayValue: 3
-    }
-  ]
-};
+// PayConfirm.defaultProps = {
+//   performerList: [
+//     {
+//       performerId: "0",
+//       performerName: 'ピエーロ瀧',
+//       performerDescription: 'ジャグリングやってます。30年近くも。どうしようもないですね。',
+//       performerIconImage: '/images/sample/user-icon_performer.png',
+//       performerPayValue: 1
+//     },
+//     {
+//       performerId: "1",
+//       performerName: 'チェロ弾き',
+//       performerDescription: 'チェロ弾いてます。100年近くも。まだがんばる！',
+//       performerIconImage: '/images/sample/user-icon_performer.png',
+//       performerPayValue: 15
+//     },
+//     {
+//       performerId: "2",
+//       performerName: 'わーいわいわいわい',
+//       performerDescription: 'わーい',
+//       performerIconImage: '/images/sample/user-icon_performer.png',
+//       performerPayValue: 3
+//     }
+//   ]
+// };

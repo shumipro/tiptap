@@ -28,8 +28,8 @@ export default class PayCounter extends React.Component {
   /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
   _setState(state) {
     // increment count
-    if(state){
-      this.setState({count: this.state.count + 1});
+    if(state && state.tips){
+      this.setState({count: state.tips.length});
     }
   }
   

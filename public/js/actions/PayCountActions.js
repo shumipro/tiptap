@@ -3,9 +3,10 @@ var TTDispatcher = require('../dispatcher');
 
 var PayCountActions = {
 
-  addPayCount: function() {
+  addPayCount: function(data) {
     TTDispatcher.dispatch({
-      type: ActionTypes.ADD_PAY_COUNT
+      type: ActionTypes.ADD_PAY_COUNT,
+      data: data
     });
   }
 };

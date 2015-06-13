@@ -2,7 +2,9 @@ var TTDispatcher = require('../dispatcher');
 var ActionTypes = require('../constants').ActionTypes;
 var StoreFactory = require('./StoreFactory');
 
-var PayCountStore = StoreFactory.create({});
+var PayCountStore = StoreFactory.create({
+  tips: []
+});
 
 PayCountStore.dispatchToken = TTDispatcher.register((action)=> {
   if(action.type === undefined){
@@ -10,7 +12,10 @@ PayCountStore.dispatchToken = TTDispatcher.register((action)=> {
   }
   switch(action.type) {
     case ActionTypes.ADD_PAY_COUNT:
-      PayCountStore.setState({});
+      var tips = PayCountStore.getState().tips || [];
+      // append to tips list
+      tips.push(action.data);
+      PayCountStore.setState({tips: tips});
       break;
     default:
       // no-op

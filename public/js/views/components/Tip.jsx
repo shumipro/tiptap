@@ -79,7 +79,7 @@ export default class Tip extends React.Component {
       .set('Accept', 'application/json')
       .end(function(err, res){
         if(!err){
-          PayCountActions.addPayCount();
+          PayCountActions.addPayCount(res.body);
         }
       })
   }
