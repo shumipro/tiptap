@@ -1,8 +1,6 @@
 import keyMirror from 'keymirror';
 
-export default {
-  
-  ActionTypes: keyMirror({
+module.exports = keyMirror({
     
     /**
       Menu Modal actions
@@ -28,6 +26,4 @@ export default {
     */
     UPDATE_PERFORMER: null
     
-  })
-  
-};
+  });

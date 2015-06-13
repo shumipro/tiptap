@@ -86,7 +86,13 @@ func PusherPay(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: set User Info
-	result := map[string]string{"amount": payReq.Amount, "currency": payReq.Currency}
+	result := map[string]string{
+		"amount":   payReq.Amount,
+		"currency": payReq.Currency,
+		"userId":   "12345",
+		"userName": "ぷっしゃーー",
+		"userIcon": "/images/sample/pusheeer.png",
+	}
 
 	// pusher trigger
 	client.Trigger(payReq.PerformerID, "pay", result)

@@ -21,8 +21,9 @@ PusherStore.dispatchToken =
       case ActionTypes.CLOSE_CONFIRM_DIALOG:
         PusherStore.setState({show: false});
         break;
-      case ActionTypes.SET_CONFIRM_OPTION:
+      case ActionTypes.SET_PUSHER_DATA:
         PusherStore.setState({
+          show: action.show,
           userId    : action.userId,
           userName  : action.userName,
           userIcon  : action.userIcon,
