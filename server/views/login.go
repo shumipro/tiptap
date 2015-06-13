@@ -13,8 +13,8 @@ import (
 	"gopkg.in/mgo.v2"
 
 	"github.com/shumipro/tiptap/server/login"
-	"github.com/shumipro/tiptap/server/repository"
 	"github.com/shumipro/tiptap/server/oauth"
+	"github.com/shumipro/tiptap/server/repository"
 
 	"github.com/shumipro/tiptap/server/templates"
 )
@@ -131,4 +131,26 @@ func registerUser(name string) repository.User {
 	user.UpdateAt = nowTime
 
 	return user
+}
+
+func LoginPayPal(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	c, _ := oauth.FromPayPalContext(ctx)
+	http.Redirect(w, r, c.AuthCodeURL(""), 302)
+}
+
+func AuthPayPalCallback(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+	code := r.FormValue("code")
+	token, err := oauth.GetPayPalAuthToken(ctx, code)
+	if err != nil {
+		panic(err)
+	}
+
+	_ = token
+
+	// TODO: accessTokenでemailかpayerIDを取得する API呼び出し
+
+	// TODO: payoutQueueをExecuteする
+
+	// TODO: なんかダイアログ出す感じ?
+	http.Redirect(w, r, "/", 302)
 }

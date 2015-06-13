@@ -16,12 +16,12 @@ import (
 	"github.com/shumipro/tiptap/server/paypal"
 	"github.com/shumipro/tiptap/server/templates"
 
-	_ "github.com/shumipro/tiptap/server/apis"
 	"github.com/shumipro/tiptap/server/application"
 	"github.com/shumipro/tiptap/server/login"
 	"github.com/shumipro/tiptap/server/oauth"
-	_ "github.com/shumipro/tiptap/server/oauth"
 	"github.com/shumipro/tiptap/server/twitter"
+
+	_ "github.com/shumipro/tiptap/server/apis"
 	_ "github.com/shumipro/tiptap/server/views"
 )
 
@@ -41,6 +41,8 @@ func Serve() {
 
 	ctx = login.NewSessionStore(ctx)
 	ctx = twitter.NewContext(ctx)
+
+	ctx = oauth.NewPayPal(ctx)
 	ctx = oauth.WithTwitter(ctx)
 
 	ctx = paypal.NewPayPalClient(ctx)
