@@ -19,7 +19,7 @@ type mongodb string
 
 var databaseName string
 
-func MustMongoDB(ctx context.Context) *mgo.Session {
+func MustMongoDB(ctx context.Context) (*mgo.Session) {
 	db, ok := MongoDB(ctx)
 	if !ok {
 		panic("not found mongoDB")

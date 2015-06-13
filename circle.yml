@@ -17,9 +17,8 @@ test:
   override:
     - go test -v ./... -race
 
-#deployment:
-#  production:
-#    branch: master
-#    commands:
-#      - cloudinarycmd -dir public/img -prepend img -uri $CLOUDINARY_URL
-#      - git push git@heroku.com:tiptap.git $CIRCLE_SHA1:master
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: bigtiptap-battlehack

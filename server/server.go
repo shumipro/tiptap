@@ -16,6 +16,7 @@ import (
 	"github.com/shumipro/tiptap/server/paypal"
 	"github.com/shumipro/tiptap/server/templates"
 
+	_ "github.com/shumipro/tiptap/server/oauth"
 	_ "github.com/shumipro/tiptap/server/apis"
 	_ "github.com/shumipro/tiptap/server/views"
 )
