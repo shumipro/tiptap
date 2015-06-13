@@ -70,7 +70,7 @@ var routes = (
     <Route handler={History} path='/history/given/' />
     
     {/* Pay Confirm Page */}
-    <Route handler={PayConfirm} path='/payconform/' />
+    <Route handler={PayConfirm} path='/payconfirm/' />
   
   </Route>
 );
