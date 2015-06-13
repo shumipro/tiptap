@@ -1,13 +1,13 @@
-var Dispatcher = require('../dispatcher');
+var TTDispatcher = require('../dispatcher');
 var ActionTypes = require('../constants').ActionTypes;
 var StoreFactory = require('./StoreFactory');
 
 var PerformerStore = StoreFactory.create({});
 
-PerformerStore.dispatchToken = Dispatcher.register((action)=> {
+PerformerStore.dispatchToken = TTDispatcher.register((action)=> {
   switch(action.type) {
     case ActionTypes.UPDATE_PERFORMER:
-    console.log(action)
+      console.log(action)
       PerformerStore.setState({});
       break;
     default:

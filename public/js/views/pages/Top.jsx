@@ -47,7 +47,7 @@ export default class Top extends React.Component {
       request
         .get('/api/performer?major_id=' + major_id + '&minor_id=' + minor_id)
         .end((err, res) => {
-          // {"performer_id":"","performer_name":"performer2","major_id":1,"minor_id":2}
+          // {"performer_id":"","performer_name":"performer2","major_id":1,"minor_id":2, "performer_image_url": "", "description": ""}
           // dispatcher.handleViewAction({type: ActionTypes.UPDATE_PERFORMER, performer: res });
         })
     }
