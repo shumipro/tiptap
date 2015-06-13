@@ -6,6 +6,15 @@ import (
 	"golang.org/x/net/context"
 )
 
+const (
+	GuestUser = "GUEST"
+)
+
+var guestUser = domain.User{
+	UserID:   GuestUser,
+	UserName: "GuestUser",
+}
+
 var User = userService{}
 
 type userService struct {
@@ -13,6 +22,10 @@ type userService struct {
 
 func (t userService) Get(ctx context.Context, userID string) (domain.User, error) {
 	u := domain.User{}
+
+	if userID == GuestUser {
+		return guestUser, nil
+	}
 
 	user, err := models.UsersTable.FindID(ctx, userID)
 	if err != nil {

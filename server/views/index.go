@@ -22,7 +22,17 @@ type IndexResponse struct {
 }
 
 func Index(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	userID := "GUEST"
+	response := IndexResponse{}
+	response.TemplateHeader = templates.NewHeader(ctx,
+		"TipTap",
+		"",
+		"Tip Tap!",
+		true,
+		"",
+		"",
+	)
+
+	userID := service.GuestUser
 	a, ok := login.FromContext(ctx)
 	if ok {
 		userID = a.UserID
@@ -36,16 +46,6 @@ func Index(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/error", 302)
 		return
 	}
-
-	response := IndexResponse{}
-	response.TemplateHeader = templates.NewHeader(ctx,
-		"TipTap",
-		"",
-		"Tip Tap!",
-		true,
-		"",
-		"",
-	)
 	response.IndexViewModel = viewmodels.ConvertIndexViewModel(u)
 
 	templates.ExecuteTemplate(ctx, w, r, "index", response)
