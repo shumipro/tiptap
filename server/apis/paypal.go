@@ -150,5 +150,7 @@ func PaymentDone(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Header)
 	fmt.Println(r.Cookies())
 
-	w.Write([]byte("OK"))
+	// call custom scheme
+	w.Write([]byte("<html><script>location.href='tiptap://https://bigtiptap-battlehack.herokuapp.com/';</script></html>"))
+	// http.Redirect(w, r, "tiptap://https://bigtiptap-battlehack.herokuapp.com/", 302)
 }
