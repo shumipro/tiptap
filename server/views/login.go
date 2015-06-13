@@ -23,6 +23,8 @@ func init() {
 	kami.Get("/login", Login)
 	kami.Get("/logout", Logout)
 	kami.Get("/login/twitter", LoginTwitter)
+	kami.Get("/login/paypal", LoginPayPal)
+	kami.Get("/auth/paypal/callback", AuthPayPalCallback)
 	kami.Get("/auth/twitter/callback", AuthTwitterCallback)
 }
 
@@ -151,9 +153,13 @@ func AuthPayPalCallback(ctx context.Context, w http.ResponseWriter, r *http.Requ
 
 	_ = token
 
+	fmt.Println(token)
+
 	// TODO: accessTokenでemailかpayerIDを取得する API呼び出し
+	fmt.Println("accessTokenでemailかpayerIDを取得する API呼び出し")
 
 	// TODO: payoutQueueをExecuteする
+	fmt.Println("payoutQueueをExecuteする")
 
 	// TODO: なんかダイアログ出す感じ?
 	http.Redirect(w, r, "/", 302)
