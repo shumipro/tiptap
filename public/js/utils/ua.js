@@ -49,10 +49,8 @@ function getUA(){
       devices = this.getDevice();
       element = document.getElementsByTagName("HTML")[0];
       putClass = function(d){
-        console.log(d)
-        for (k in d){
-          console.log(d)
-          if(d[k]){
+        for(let k in d){
+          if(k){
             classStrings = " "+k;
             break;
           }
