@@ -2,12 +2,7 @@
   Component: Modal
 */
 var React   = require('react');
-var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
-
-// Component Call
-var {
-} = require('../components');
 
 export default class Modal extends React.Component {
   
@@ -32,12 +27,12 @@ export default class Modal extends React.Component {
   }
   
   componentDidMount() {
-    var node = this.getDOMNode();
+    var node = React.findDOMNode(this);
     node.addEventListener('transitionend', this.onTransitionEnd);
   }
 
   componentWillUnmount() {
-    var node = this.getDOMNode();
+    var node = React.findDOMNode(this);
     node.removeEventListener('transitionend', this.onTransitionEnd);
   }
 
@@ -68,8 +63,12 @@ export default class Modal extends React.Component {
   
   render(){
     
+    var {
+      className
+    } = this.props;
+    
     return (
-      <div className={joinClasses('Component_modal', className, this.animateClass, this.display ? 'visible' : 'hide')}>
+      <div ref="Modal" className={joinClasses('Component_modal', className, this.animateClass, this.display ? 'visible' : 'hide')}>
         <div className='layout_modal'>
           <div className="modal__backdrop" />
           <aside className="modal__frame scroll">

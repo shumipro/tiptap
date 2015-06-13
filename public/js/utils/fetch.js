@@ -8,7 +8,6 @@ function authFetch(url, options) {
   if (!options) {
     options = {}
   }
-  options.headers = {'Gunosy-Auth-Token': PRELOAD_DATA.token};
   return fetch(url, options)
 }
 

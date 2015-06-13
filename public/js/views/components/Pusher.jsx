@@ -6,6 +6,7 @@ var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
 // Component Call
+var Modal = require('../components/Modal.jsx');
 var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage.jsx');
 
 export default class Pusher extends React.Component {
@@ -39,8 +40,8 @@ export default class Pusher extends React.Component {
     } = this.state;
     
     return (
-      <div className="Component_Pusher">
-        <aside className="Pusher__modal">
+      <Modal className="Component_Pusher">
+        <section className="Pusher__modal">
           <figure className="Puser__user">
             <ThumbsBackgroundImage imgPath={userIcon} />
             <figurecaption className="user__name">
@@ -58,8 +59,8 @@ export default class Pusher extends React.Component {
               </em>
             </div>
           </figure>
-        </aside>
-      </div>
+        </section>
+      </Modal>
     );
   }
 }

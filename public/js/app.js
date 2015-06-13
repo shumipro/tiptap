@@ -24,12 +24,16 @@ var {
 
 // Components Call
 var {
-  Header
+  Header,
+  Pusher
 } = require('./views/components');
 
 // Page Component Call
 var {
-  Top
+  Top,
+  Performer,
+  PayConfirm,
+  History
 } = require('./views/pages');
 
 export default class App extends React.Component {
@@ -43,6 +47,7 @@ export default class App extends React.Component {
     return (
       <div className="layout_view">
         <Header />
+        <Pusher />
         <RouteHandler />
       </div>
     );
@@ -59,10 +64,10 @@ var routes = (
     <Route handler={Performer} path='/performer/:performerId'  />
     
     {/* PayHistory Page */}
-    <Route handler={PayHistory} path='/history/pay/' />
+    <Route handler={History} path='/history/pay/' />
   
     {/* GivenHistory Page */}
-    <Route handler={GivenHistory} path='/history/given/' />
+    <Route handler={History} path='/history/given/' />
     
     {/* Pay Confirm Page */}
     <Route handler={PayConfirm} />
