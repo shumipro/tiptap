@@ -3,11 +3,9 @@ package apis
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
-
-	"bytes"
-	"io/ioutil"
 
 	"github.com/guregu/kami"
 	gopay "github.com/kyokomi/paypal"
@@ -21,7 +19,6 @@ func init() {
 	kami.Post("/api/payment/create", PaymentCreate)
 	kami.Get("/payment/list", PaymentList)
 	kami.Get("/payment/done", PaymentDone)
-	kami.Get("/payment/payout", PaymentPayout)
 	kami.Get(paypal.PayPalReturnURL, PayPalPaymentExecute)
 	kami.Get(paypal.PayPalCancelURL, PayPalPaymentCancel)
 }
@@ -113,50 +110,6 @@ func PaymentCreate(ctx context.Context, w http.ResponseWriter, r *http.Request) 
 	renderer.JSON(w, 200, result)
 }
 
-// TODO: 廃止予定
-func PaymentPayout(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	client, ok := paypal.FromPayPalClient(ctx)
-	if !ok {
-		renderer.JSON(w, 400, "not found paypal client")
-		return
-	}
-
-	// TODO: apiライブラリへ
-	// TODO: temp to set email address to receiver
-	email := "tejitak-buyer2@gmail.com"
-	paramStr := `{"sender_batch_header":{"sender_batch_id":"2014021801","email_subject":"YouhaveaPayout!","recipient_type":"EMAIL"},"items":[{"recipient_type":"EMAIL","amount":{"value":"1.0","currency":"USD"},"note":"Thanksforyourpatronage!","sender_item_id":"201403140001","receiver":"%s"}]}`
-
-	fmt.Println("paramStr: " + fmt.Sprintf(paramStr, email))
-
-	buf := bytes.NewBufferString(fmt.Sprintf(paramStr, email))
-
-	req, err := http.NewRequest("POST", "https://api.sandbox.paypal.com/v1/payments/payouts?sync_mode=true", buf)
-	if err != nil {
-		renderer.JSON(w, 400, err.Error())
-		return
-	}
-
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", client.Authorization())
-
-	res, err := client.Do(req)
-	if err != nil {
-		renderer.JSON(w, 400, err.Error())
-		return
-	}
-	defer res.Body.Close()
-
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		renderer.JSON(w, 400, err.Error())
-		return
-	}
-
-	fmt.Println(string(data))
-
-	http.Redirect(w, r, "/payment/done", 302)
-}
-
 func PayPalPaymentExecute(ctx context.Context, w http.ResponseWriter, r *http.Request) {
 	client, ok := paypal.FromPayPalClient(ctx)
 	if !ok {
@@ -174,7 +127,7 @@ func PayPalPaymentExecute(ctx context.Context, w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// TODO: paymentIDでqueueを更新
+	// paymentIDでqueueを更新
 	if err := service.Payout.ReadyPayoutQueue(ctx, paymentID); err != nil {
 		// TODO: 手オペになる airbrakeする
 		renderer.JSON(w, 400, err.Error())
