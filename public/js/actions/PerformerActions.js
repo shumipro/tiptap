@@ -3,9 +3,10 @@ var TTDispatcher = require('../dispatcher');
 
 var PeformerActions = {
 
-  updatePerformer: function() {
+  updatePerformer: function(data) {
     TTDispatcher.dispatch({
-      type: ActionTypes.UPDATE_PERFORMER
+      type: ActionTypes.UPDATE_PERFORMER,
+      performer: data
     });
   }
 };

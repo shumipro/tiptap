@@ -14,7 +14,6 @@ export default class BeaconHat extends React.Component {
     super(props)
     
     this.state = {
-      isWaiting:  true,
       imgPath: '/images/sample/performer-icon.png' 
     }
     
@@ -30,16 +29,21 @@ export default class BeaconHat extends React.Component {
     } = this.text;
     
     var {
-      isWaiting,
       imgPath
     } = this.state;
+
+    var {
+      isPerformer,
+      performerId
+    } = this.props;
     
     return (
       <section className="Component_BeaconHat">
-        { isWaiting &&
+        { !isPerformer &&
           <i className="BeaconHat__waiting" />
         }
-        { !isWaiting && isPerformer &&
+        { isPerformer && performerId && 
+          <Link to={'/performer/' + this.props.performerId}>
           <figure className="BeaconHat__isPerformer">
             <figurecaption className="isPerformer__heading">
               {nearPerformerLabel}
@@ -47,6 +51,7 @@ export default class BeaconHat extends React.Component {
             <i className="BeaconHat__notification" />
             <ThumbsBackgroundImage imagePath={imgPath} />
           </figure>
+          </Link>
         }
         <img src="/images/hat.svg" alt="Hat" />
       </section>

@@ -11,7 +11,7 @@ PerformerStore.dispatchToken = TTDispatcher.register((action)=> {
   switch(action.type) {
     case ActionTypes.UPDATE_PERFORMER:
       console.log(action)
-      PerformerStore.setState({});
+      PerformerStore.setState(action.performer);
       break;
     default:
       // no-op

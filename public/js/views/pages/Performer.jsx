@@ -6,7 +6,7 @@ var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
 var PusherActions  = require('../../actions/PusherActions');
-
+var PerformerStore    = require('../../stores/PerformerStore');
 
 // Component Call
 var {
@@ -55,5 +55,18 @@ export default class Perfomer extends React.Component {
   componentWillUnMount() {
     // unsubscribe all channels
     _channel && _channel.unbind();
+  }
+
+  /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
+  _setState(state) {
+    console.log("_setState",state);
+    this.setState(state);
+  }
+
+  componentDidMount() {
+    PerformerStore.on('change:state', this._setState.bind(this));
+  }
+  componentWillUnMount() {
+    PerformerStore.removeListener('change:state', this._setState.bind(this));
   }
 }
