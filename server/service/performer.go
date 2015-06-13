@@ -9,7 +9,7 @@ type performerService struct {
 
 func (s performerService) Get(userID int64) (domain.Performer, error) {
 	p := domain.Performer{}
-	p.Name = "performer1"
+	p.UserName = "performer1"
 	p.MajorID = 1
 	p.MinorID = 1
 
@@ -20,7 +20,7 @@ func (s performerService) Get(userID int64) (domain.Performer, error) {
 
 func (s performerService) GetByBeacon(majorID, minorID int64) (domain.Performer, error) {
 	p := domain.Performer{}
-	p.Name = "performer2"
+	p.UserName = "performer2"
 	p.MajorID = majorID
 	p.MinorID = minorID
 
