@@ -12,9 +12,9 @@ var {
 } = require('../components');
 
 export default class Top extends React.Component {
+  
   constructor(props) {
     super(props)
-    
     this.state = {
       isLogin: PRELOAD_DATA.isLogin
     }
@@ -25,7 +25,7 @@ export default class Top extends React.Component {
   }
   
   render(){
-  
+    
     var {
       isLogin
     } = this.state;

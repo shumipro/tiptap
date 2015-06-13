@@ -9,7 +9,7 @@ var joinClasses = require('react/lib/joinClasses');
 var MenuTrigger = require('../components/MenuTrigger.jsx');
 var PayCounter = require('../components/PayCounter.jsx');
 
-export default class Reply extends React.Component {
+export default class Header extends React.Component {
   
   constructor(props) {
     super(props)

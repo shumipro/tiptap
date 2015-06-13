@@ -9,7 +9,7 @@ var joinClasses = require('react/lib/joinClasses');
 var {
 } = require('../components');
 
-export default class Top extends React.Component {
+export default class History extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

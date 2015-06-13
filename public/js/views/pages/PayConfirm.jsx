@@ -11,7 +11,7 @@ var {
   Regist
 } = require('../components');
 
-export default class Top extends React.Component {
+export default class PayConfirm extends React.Component {
   constructor(props) {
     super(props)
     
