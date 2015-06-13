@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{ template "partials/header" . }}
+  <script src="//js.pusher.com/2.2/pusher.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('21ca65f345ffaeacb59b');
+    var channel = pusher.subscribe('performer_channel_00001');
+    channel.bind('comment', function(data) {
+      alert("comment: " + data.comment);
+    });
+    channel.bind('pay', function(data) {
+      alert("payed!: " + data.price);
+    });
+  </script>
+</head>
+<body>
+    <header>
+        {{ template "partials/nav" . }}
+    </header>
+
+    <div class="wrapper">
+        <section>
+          <h1>Panist Big Thundar</h1>
+          <div>
+            <input type="text" id="pusher_comment">
+            <a id="pusher_comment_link" href="javascript:;">Comment</a>
+          </div>
+          <div>
+            Price: <input type="text" id="pusher_pay" value="1$">
+            <a id="pusher_pay_link" href="javascript:;">Pay!</a>
+          </div>
+
+        </section>
+        <footer>
+            {{ template "partials/footer" . }}
+        </footer>
+    </div>
+    {{ template "partials/scripts" . }}
+  <script>
+    $('#pusher_comment_link').on("click", function(){
+        var comment = $("#pusher_comment").val();
+        if(!comment){ return; }
+        $.ajax({
+            url: '/pusher_comment',
+            type: 'post',
+            contentType:"application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+              comment: comment
+            })
+        }).done(function(res){
+            // location.reload()
+        }).fail(function(){
+            alert("Error")
+        })
+    });
+
+    $('#pusher_pay_link').on("click", function(){
+        var price = $("#pusher_pay").val();
+        if(!price){ return; }
+        $.ajax({
+            url: '/pusher_pay',
+            type: 'post',
+            contentType:"application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+              price: price
+            })
+        }).done(function(res) {
+            // location.reload()
+        }).fail(function() {
+            alert("Error")
+        })
+    });
+
+  </script>
+</body>
+</html>
