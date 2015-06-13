@@ -1,0 +1,25 @@
+checkout:
+  post:
+    - rm -rf $HOME/.go_workspace/src/github.com/kyokomi/*
+    - rm -rf $HOME/.go_workspace/src/github.com/shumipro/*
+    - mkdir -p $HOME/.go_workspace/src/github.com/shumipro
+    - ln -snf $HOME/$CIRCLE_PROJECT_REPONAME $HOME/.go_workspace/src/github.com/shumipro
+
+dependencies:
+  pre:
+    - go get -t -d -v ./...
+    - go get github.com/kyokomi/cloudinary/cloudinarycmd
+    - go install github.com/kyokomi/cloudinary/cloudinarycmd
+  override:
+    - go build -v
+
+test:
+  override:
+    - go test -v ./... -race
+
+#deployment:
+#  production:
+#    branch: master
+#    commands:
+#      - cloudinarycmd -dir public/img -prepend img -uri $CLOUDINARY_URL
+#      - git push git@heroku.com:tiptap.git $CIRCLE_SHA1:master

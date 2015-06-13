@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{ template "partials/header" . }}
+</head>
+<body>
+    <header>
+        {{ template "partials/nav" . }}
+    </header>
+
+    <div class="wrapper">
+        <section>
+            <div class="container">
+                <h1>Error</h1>
+                <div class="divider"></div>
+                <p>An error occurred</p>
+            </div>
+        </section>
+        <footer>
+            {{ template "partials/footer" . }}
+        </footer>
+    </div>
+    {{ template "partials/scripts" . }}
+</body>
+</html>

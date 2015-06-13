@@ -1,0 +1,108 @@
+{
+	"ImportPath": "github.com/shumipro/tiptap",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/bitly/go-simplejson",
+			"Comment": "v0.4.3-30-g18db6e6",
+			"Rev": "18db6e68d8fd9cbf2e8ebe4c81a78b96fd9bf05a"
+		},
+		{
+			"ImportPath": "github.com/gotsunami/go-cloudinary",
+			"Rev": "b7d418f8e8d160a25e3e3c7bb63720ea1a40844e"
+		},
+		{
+			"ImportPath": "github.com/guregu/kami",
+			"Rev": "812da62f883f094d3ed38dbdf4294341d357a2ab"
+		},
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Rev": "8c199fb6259ffc1af525cc3ad52ee60ba8359669"
+		},
+		{
+			"ImportPath": "github.com/k0kubun/pp",
+			"Comment": "v2.1.0-3-gd41d644",
+			"Rev": "d41d6445d773ca20b8685f84734ec1924136c7f9"
+		},
+		{
+			"ImportPath": "github.com/kyokomi/cloudinary",
+			"Rev": "b4d50f43b0e717259ac085007ed2592ea87b2b3c"
+		},
+		{
+			"ImportPath": "github.com/kyokomi/goroku",
+			"Rev": "b16a8ccdb59c1b1f91d403d019919a37dda67c26"
+		},
+		{
+			"ImportPath": "github.com/kyokomi/paypal",
+			"Rev": "a5029b6af9fb1785ceaceaf75f726e71a3376b38"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Rev": "d67e0b7d1797975196499f79bcc322c08b9f218b"
+		},
+		{
+			"ImportPath": "github.com/microcosm-cc/bluemonday",
+			"Rev": "fcd0f5074e55df204568c7419509fb59ddcad228"
+		},
+		{
+			"ImportPath": "github.com/russross/blackfriday",
+			"Comment": "v1.2-69-g4bed88b",
+			"Rev": "4bed88b4fd00fbb66b49b0f38ed3dd0b902ab515"
+		},
+		{
+			"ImportPath": "github.com/shurcooL/sanitized_anchor_name",
+			"Rev": "8e87604bec3c645a4eeaee97dfec9f25811ff20d"
+		},
+		{
+			"ImportPath": "github.com/unrolled/render",
+			"Rev": "a9e7a35d2194896cd9985fd068ab3735ce3bc39f"
+		},
+		{
+			"ImportPath": "github.com/zenazn/goji/bind",
+			"Comment": "v0.9.0-15-g0276f3f",
+			"Rev": "0276f3f3fb609aabf8d9ba7aea10c80ec979989d"
+		},
+		{
+			"ImportPath": "github.com/zenazn/goji/graceful",
+			"Comment": "v0.9.0-15-g0276f3f",
+			"Rev": "0276f3f3fb609aabf8d9ba7aea10c80ec979989d"
+		},
+		{
+			"ImportPath": "github.com/zenazn/goji/web/mutil",
+			"Comment": "v0.9.0-15-g0276f3f",
+			"Rev": "0276f3f3fb609aabf8d9ba7aea10c80ec979989d"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "ff8eb9a34a5cbb9941ffc6f84a19a8014c2646ad"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "ff8eb9a34a5cbb9941ffc6f84a19a8014c2646ad"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "23f31c341b9ede4693ea642df2d2bd3c03c3bd8b"
+		},
+		{
+			"ImportPath": "gopkg.in/airbrake/gobrake.v1",
+			"Comment": "v1.1",
+			"Rev": "f12667a6c3bda272083682a04a05ee7a14e55378"
+		},
+		{
+			"ImportPath": "gopkg.in/bufio.v1",
+			"Comment": "v1",
+			"Rev": "567b2bfa514e796916c4747494d6ff5132a1dfce"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2015.01.24",
+			"Rev": "c6a7dce14133ccac2dcac3793f1d6e2ef048503a"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v2",
+			"Comment": "v2.3.2",
+			"Rev": "e6179049628164864e6e84e973cfb56335748dea"
+		}
+	]
+}
