@@ -11,21 +11,49 @@ var {
 
 export default class Menu extends React.Component {
   
-  text: {}
-  
   constructor(props) {
     super(props)
     this.state = {
+    }
+    
+    this.text = {
+      performerEditLabel: 'パフォーマーになる',
+      historyLabel: '履歴',
+      aboutLabel: 'このアプリについて'
     }
   }
   
   render(){
     
-    var {} = this.text;
+    var {
+      performerEditLabel,
+      historyLabel,
+      aboutLabel
+    } = this.text;
     
     return (
       <aside className="Component_Menu">
-        Menu...
+        <nav className="Menu__nav">
+          <ul className="nav__list">
+            <li className="list__item">
+              <Link to="PerformerEdit">
+                {performerEditLabel}
+              </Link>
+            </li>
+            <li className="list__item">
+              <Link to="PayHistory">
+                {historyLabel}
+              </Link>
+            </li>
+            {/*
+              <li className="list__item">
+                <Link to="About">
+                  {aboutLabel}
+                </Link>
+              </li>
+            */}
+          </ul>
+        </nav>
       </aside>
     );
   }
