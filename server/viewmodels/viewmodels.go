@@ -7,25 +7,28 @@ type IndexViewModel struct {
 }
 
 type UserViewModel struct {
-	Name string `json:"name"`
+	UserID   int64  `json:"user_id"`
+	UserName string `json:"user_name"`
 }
 
 type PerformerViewModel struct {
-	Name    string `json:"name"`
-	MajorID int64  `json:"major_id"`
-	MinorID int64  `json:"minor_id"`
+	PerformerID   int64  `json:"performer_id"`
+	PerformerName string `json:"performer_name"`
+	MajorID       int64  `json:"major_id"`
+	MinorID       int64  `json:"minor_id"`
 }
 
 func ConvertIndexViewModel(user domain.User) IndexViewModel {
 	vm := IndexViewModel{}
-	vm.User.Name = user.Name
+	vm.User.UserName = user.UserName
 
 	return vm
 }
 
 func ConvertPerformerViewModel(performer domain.Performer) PerformerViewModel {
 	vm := PerformerViewModel{}
-	vm.Name = performer.Name
+	vm.PerformerID = performer.UserID
+	vm.PerformerName = performer.UserName
 	vm.MajorID = performer.MajorID
 	vm.MinorID = performer.MinorID
 

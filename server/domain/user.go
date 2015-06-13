@@ -1,5 +1,6 @@
 package domain
 
 type User struct {
-	Name string
+	UserID   int64
+	UserName string
 }

@@ -12,7 +12,7 @@ func (t userService) Get(userID int64) (domain.User, error) {
 
 	// TODO: userテーブル的なやつ検索
 
-	u.Name = "hogeUser"
+	u.UserName = "hogeUser"
 
 	return u, nil
 }
