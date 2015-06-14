@@ -50,11 +50,6 @@ export default class PerformerProfile extends React.Component {
     return (
       <section className="Component_PerformerProfile">
         <ThumbsBackgroundImage imagePath={performerIconImage} />
-        { !!performerDescription &&
-          <div className="PerformerProfile__description">
-            {performerDescription}
-          </div>
-        }
         <h1 className="PerformerProfile__name">
           {title}
         </h1>
@@ -62,6 +57,11 @@ export default class PerformerProfile extends React.Component {
           <figcaption>
             {performerName}
           </figcaption>
+          { !!performerDescription &&
+            <div className="PerformerProfile__description">
+              {performerDescription}
+            </div>
+          }
           { !performerDescription &&
             <div className="PerformerProfile__description type_none">
               {noDescription}
