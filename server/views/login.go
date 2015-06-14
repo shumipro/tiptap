@@ -16,6 +16,8 @@ import (
 	"github.com/shumipro/tiptap/server/oauth"
 	"github.com/shumipro/tiptap/server/repository"
 
+	"github.com/shumipro/tiptap/server/paypal"
+	"github.com/shumipro/tiptap/server/service"
 	"github.com/shumipro/tiptap/server/templates"
 )
 
@@ -155,11 +157,24 @@ func AuthPayPalCallback(ctx context.Context, w http.ResponseWriter, r *http.Requ
 
 	fmt.Println(token)
 
-	// TODO: accessTokenでemailかpayerIDを取得する API呼び出し
-	fmt.Println("accessTokenでemailかpayerIDを取得する API呼び出し")
+	client, ok := paypal.FromPayPalClient(ctx)
+	if !ok {
+		panic("not paypal client errror")
+	}
 
-	// TODO: payoutQueueをExecuteする
-	fmt.Println("payoutQueueをExecuteする")
+	u, err := client.Identity.UserInfo()
+	if err != nil {
+		panic(err)
+	}
+
+	a, err := login.GetAccountBySession(ctx, r)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := service.Payout.ExecutePayoutQueue(ctx, a.UserID, u.Email); err != nil {
+		panic(err)
+	}
 
 	// TODO: なんかダイアログ出す感じ?
 	http.Redirect(w, r, "/", 302)

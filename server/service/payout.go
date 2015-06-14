@@ -37,9 +37,8 @@ func (s payoutService) ReadyPayoutQueue(ctx context.Context, paymentID string) e
 	return repository.PayoutQueueRepository.UpdateStateByPaymentID(ctx, paymentID, repository.PayoutStateReady)
 }
 
-// TODO: パフォ−まーが自分のやつだけ処理する方式がよさそう?
 // ExecutePayoutQueue 溜まってるキューを処理
-func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
+func (s payoutService) ExecutePayoutQueue(ctx context.Context, payoutUserID string, email string) error {
 	client, ok := paypal.FromPayPalClient(ctx)
 	if !ok {
 		return fmt.Errorf("error not paypal client")
@@ -55,8 +54,13 @@ func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
 	}
 
 	payOutReq := gopay.PaymentPayoutRequest{}
+	payOutReq.SenderBatchHeader.EmailSubject = "You have a payment"
 
 	for idx, queue := range queues {
+		if queue.PayoutUserID != payoutUserID {
+			continue
+		}
+
 		// end queue
 		err = repository.PayoutQueueRepository.UpdateStateByQueueID(ctx, queue.QueueID, repository.PayoutStateEnd)
 		if err != nil {
@@ -66,10 +70,12 @@ func (s payoutService) ExecutePayoutQueue(ctx context.Context) error {
 
 		item := gopay.PayoutItem{}
 		// TODO: 本当はpayerUserIDからpayerIDかemailを取得する
-		item.Receiver = "kyokomi1220dev-performer@gmail.com"
-		item.Amount.Total = string(queue.Amount)
+		item.Receiver = email
+		item.Amount.Value = string(queue.Amount)
 		item.Amount.Currency = string(queue.Currency)
 		item.RecipientType = gopay.RECIPIENT_EMAIL
+		item.Note = "Payment for recent T-Shirt delivery"
+		item.SenderItemID = "A123"
 
 		fmt.Println(idx, item)
 
