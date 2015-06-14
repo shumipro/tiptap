@@ -29,12 +29,13 @@ export default class Modal extends React.Component {
   componentDidMount() {
     var node = React.findDOMNode(this);
     node.addEventListener('transitionstart', this.onTransitionStart.bind(this));
+    this.refs.Modal.getDOMNode().addEventListener('click', this.hide.bind(this));
   }
 
   componentWillUnmount() {
     var node = React.findDOMNode(this);
     node.removeEventListener('transitionend', this.onTransitionEnd.bind(this));
-    node.removeEventListener('click', this.hide.bind(this));
+    this.refs.Modal.getDOMNode().removeEventListener('click', this.hide.bind(this));
   }
 
   onTransitionEnd(e) {
@@ -55,9 +56,8 @@ export default class Modal extends React.Component {
         var delay = setTimeout(function(){
           this.animateClass = this.animateClasses.enter;
           this.forceUpdate();
-          // close 
+          // close
         }.bind(this), 100);
-        this.refs.Modal.getDOMNode().addEventListener('click', this.hide.bind(this));
       }
     }else{
       this.animateClass = this.animateClasses.leave;
@@ -66,9 +66,6 @@ export default class Modal extends React.Component {
   }
 
   hide(e) {
-    if(e.target){
-
-    }
     // this.animateClass = this.animateClasses.leave;
     this.props.toggle = this.props.display = false;
     this.forceUpdate();
@@ -90,7 +87,7 @@ export default class Modal extends React.Component {
         <div className='layout_modal'>
           <div className="modal__backdrop" />
           <aside className="modal__frame scroll">
-            <div className="modal__body">
+            <div ref="Modal" className="modal__body">
               {this.props.children}
             </div>
           </aside>
