@@ -7,6 +7,7 @@ var joinClasses = require('react/lib/joinClasses');
 var request = require('superagent');
 var PayCountStore    = require('../../stores/PayCountStore');
 var PayCountActions  = require('../../actions/PayCountActions');
+var PageHistoryActions  = require('../../actions/PageHistoryActions');
 
 // Component Call
 var {
@@ -57,6 +58,7 @@ export default class PayConfirm extends React.Component {
   /* LifeCycleでStoreを監視 */
   componentDidMount() {
     PayCountStore.on('change:state', this._setState.bind(this));
+    PageHistoryActions.onHistoryBack();
   }
 
   componentWillUnMount() {

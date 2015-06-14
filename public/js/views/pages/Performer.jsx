@@ -7,6 +7,7 @@ var joinClasses = require('react/lib/joinClasses');
 
 var PusherActions  = require('../../actions/PusherActions');
 var PerformerStore    = require('../../stores/PerformerStore');
+var PageHistoryActions  = require('../../actions/PageHistoryActions');
 
 // Component Call
 var {
@@ -65,6 +66,7 @@ export default class Perfomer extends React.Component {
 
   componentDidMount() {
     PerformerStore.on('change:state', this._setState.bind(this));
+    PageHistoryActions.onHistoryBack();
   }
   componentWillUnMount() {
     PerformerStore.removeListener('change:state', this._setState.bind(this));

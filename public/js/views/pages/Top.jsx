@@ -9,6 +9,7 @@ var dispatcher = require('../../dispatcher');
 var ActionTypes = require('../../constants').ActionTypes;
 var PerformerActions  = require('../../actions/PerformerActions');
 var PerformerStore    = require('../../stores/PerformerStore');
+var PageHistoryActions  = require('../../actions/PageHistoryActions');
 
 // Component Call
 var {
@@ -81,6 +82,7 @@ export default class Top extends React.Component {
 
   componentDidMount() {
     PerformerStore.on('change:state', this._setState.bind(this));
+    PageHistoryActions.offHistoryBack();
   }
   componentWillUnMount() {
     PerformerStore.removeListener('change:state', this._setState.bind(this));
