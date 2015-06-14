@@ -60,6 +60,7 @@ func Serve() {
 		"/css/*css",
 		"/dist/*dist",
 		"/img/*img",
+		"/images/*images",
 		"/js/*js",
 		"/favicon.ico",
 		"/robots.txt",

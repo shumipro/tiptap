@@ -82,7 +82,7 @@ func (s payoutService) ExecutePayoutQueue(ctx context.Context, payoutUserID stri
 		payOutReq.Items = append(payOutReq.Items, item)
 	}
 
-	if err := client.Payment.Payout(true, payOutReq); err != nil {
+	if _, err := client.Payment.Payout(true, payOutReq); err != nil {
 		return err
 	}
 

@@ -26,7 +26,7 @@ export default class Top extends React.Component {
     }
     
     this.text = {
-      heading: 'Regist'
+      heading: 'Regist This Service.'
     }
   }
   
@@ -51,7 +51,15 @@ export default class Top extends React.Component {
       request
         .get('/api/performer?major_id=' + major_id + '&minor_id=' + minor_id)
         .end((err, res) => {
-          // {"performer_id":"","performer_name":"performer2","major_id":1,"minor_id":2, "performer_image_url": "", "description": ""}
+          /** 
+            {
+              "performer_id":"",
+              "performer_name":"performer2",
+              "major_id":1,"minor_id":2,
+              "performer_image_url": "",
+              "description": ""
+            }
+          */
           if(!err){
             PerformerActions.updatePerformer(res.body)
             this._loaded = true
@@ -74,9 +82,7 @@ export default class Top extends React.Component {
     );
   }
 
-    /* Storeで更新があった際にStoreからstateを受け取ってsetStateするMethod */
   _setState(state) {
-    console.log("_setState", state);
     this.setState(state);
   }
 
