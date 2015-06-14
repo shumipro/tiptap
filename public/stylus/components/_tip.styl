@@ -1,0 +1,42 @@
+.Component_Tip
+  
+  retina-border('bottom', gunosy_separate_border, after)
+  
+  &:after
+    width 80%
+    margin-left 10%
+    top 50px
+  .Tip__button
+    display block
+    width 100px
+    height 100px
+    border-radius 100%
+    background #f0ee81
+    border none
+    z-index 2
+    position relative
+    font-size Font_sizes[4]
+    letter-spacing .09em
+    line-height 0
+    box-shadow 0 1px 2px -1px rgba(0,0,50, .4)
+    margin 0 auto
+    
+    animation-name slideup
+    animation-duration .9s
+    animation-iteration-count 1
+    animation-timing-function cubic-bezier(0.680, 0, 0.265, 1)
+    
+    @-webkit-keyframes slideup
+      from 
+        opacity 0
+        transform translateY(50px)
+      to
+        opacity 1
+        transform translateY(0px)
+    @keyframes slideup
+      from 
+        opacity 0
+        transform translateY(50px)
+      to
+        opacity 1
+        transform translateY(0px)

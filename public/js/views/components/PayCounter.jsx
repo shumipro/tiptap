@@ -56,11 +56,12 @@ export default class PayCounter extends React.Component {
         { count > 0 &&
           <Link className="PayCount" to="/payconfirm/">
             <button className="PayCounte__button">
-              {payButtonLabel}
+              <span>{payButtonLabel}</span>
+              <i className="PayCounte__counter">
+                {count}
+              </i>
             </button>
-            <i className="PayCounte__counter">
-              {count}
-            </i>
+            
           </Link>
         }
       </div>
