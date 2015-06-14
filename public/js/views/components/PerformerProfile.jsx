@@ -11,7 +11,7 @@ var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
 // constants
 var text = {
   title: "Performer Profie",
-  noDescription: "【サンプル】はじめまして。私はピーターといいます。普段はフランス・パリの凱旋門の真下でサーカス芸をしています。一番の得意技はバルーン・パフォーマンスです:)是非見に来てくださいね♪"
+  noDescription: "..."
 }
 
 export default class PerformerProfile extends React.Component {
@@ -21,16 +21,6 @@ export default class PerformerProfile extends React.Component {
     super(props)
     this.state = {
     }
-  }
-
-  // get API to Props
-  getDefaultProps() {
-    return  {
-      performerId: 0,
-      performerName: 'Jonathan Frakes',
-      performerDescription: 'パフォーマの説明文ですよ！brタグ使いたい場合は魔法が必要...',
-      performerIcon: '/images/sample/user-icon_performer.png'
-    };
   }
 
   render(){
@@ -46,20 +36,16 @@ export default class PerformerProfile extends React.Component {
       performerDescription,
       performerIconImage
     } = this.props;
-
+    console.log(this.props);
     return (
       <section className="Component_PerformerProfile">
         <ThumbsBackgroundImage imagePath={performerIconImage} />
-        { !!performerDescription &&
-          <div className="PerformerProfile__description">
-            {performerDescription}
-          </div>
-        }
-        <h1 className="PerformerProfile__name">
+        
+        <h1 className="PerformerProfile__heading">
           {title}
         </h1>
         <figure className="PerformerProfile__information">
-          <figcaption>
+          <figcaption className="PerformerProfile__name">
             {performerName}
           </figcaption>
           { !performerDescription &&
@@ -67,8 +53,23 @@ export default class PerformerProfile extends React.Component {
               {noDescription}
             </div>
           }
+          { !!performerDescription &&
+            <div className="PerformerProfile__description">
+              {performerDescription}
+            </div>
+          }
         </figure>
+        
+        
       </section>
     );
   }
+}
+
+PerformerProfile.defaultProps = {
+  performerId: 0,
+  performerName: 'Jonathan Frakes',
+  performerDescription: 'はじめまして。私はピーターといいます。普段はフランス・パリの凱旋門の真下でサーカス芸をしています。一番の得意技はバルーン・パフォーマンスです:) 是非見に来てくださいね！',
+  performerIcon: '/images/samples/performer.png',
+  performerIconImage: '/images/samples/performer.png'
 }

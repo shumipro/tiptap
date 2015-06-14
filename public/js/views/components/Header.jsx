@@ -36,6 +36,7 @@ export default class Header extends React.Component {
         }
         <PayCounter />
         <MenuTrigger />
+        
       </header>
     );
   }
