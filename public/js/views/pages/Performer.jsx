@@ -44,7 +44,7 @@ export default class Perfomer extends React.Component {
       _pusher = new Pusher(PRELOAD_DATA.pusherClientId);
       _channel = _pusher.subscribe(this.props.params.performerId);
       _channel.bind('pay', function(data) {
-        // alert("payed!: " + JSON.stringify(data));
+        alert("1$ payed by " + data.userName || "someone");
         data.payValue = data.payValue || 1
         data.show = true
         PusherActions.setPusherData(data);
