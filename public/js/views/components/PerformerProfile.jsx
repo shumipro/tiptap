@@ -12,6 +12,7 @@ var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
 var text = {
   title: "Performer Profie",
   noDescription: "..."
+  noDescription: "【サンプル】はじめまして。私はピーターといいます。普段はフランス・パリの凱旋門の真下でサーカス芸をしています。一番の得意技はバルーン・パフォーマンスです:)是非見に来てくださいね♪"
 }
 
 export default class PerformerProfile extends React.Component {
@@ -40,14 +41,18 @@ export default class PerformerProfile extends React.Component {
     return (
       <section className="Component_PerformerProfile">
         <ThumbsBackgroundImage imagePath={performerIconImage} />
-        
-        <h1 className="PerformerProfile__heading">
+        <h1 className="PerformerProfile__name">
           {title}
         </h1>
         <figure className="PerformerProfile__information">
           <figcaption className="PerformerProfile__name">
             {performerName}
           </figcaption>
+          { !!performerDescription &&
+            <div className="PerformerProfile__description">
+              {performerDescription}
+            </div>
+          }
           { !performerDescription &&
             <div className="PerformerProfile__description type_none">
               {noDescription}

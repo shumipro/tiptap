@@ -41,7 +41,7 @@ export default class BeaconHat extends React.Component {
     
     return (
       <section className="Component_BeaconHat">
-        { isPerformer &&
+        { !isPerformer &&
           <figure className="BeaconHat__noPerformer">
             <i className="BeaconHat__waiting" />
             <figurecaption className="isPerformer__heading">
@@ -49,7 +49,7 @@ export default class BeaconHat extends React.Component {
             </figurecaption>
           </figure>
         }
-        { !isPerformer && !performerId && 
+        { isPerformer && performerId && 
           <Link to={'/performer/' + this.props.performerId}>
           <figure className="BeaconHat__isPerformer">
             <i className="BeaconHat__notification" />
