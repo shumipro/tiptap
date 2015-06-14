@@ -14,7 +14,7 @@ export default class BeaconHat extends React.Component {
     super(props)
     
     this.state = {
-      imgPath: '/images/sample/performer-icon.png' 
+      imgPath: '/images/samples/performer.png' 
     }
     
     this.text = {
@@ -41,7 +41,7 @@ export default class BeaconHat extends React.Component {
     
     return (
       <section className="Component_BeaconHat">
-        { !isPerformer &&
+        { isPerformer &&
           <figure className="BeaconHat__noPerformer">
             <i className="BeaconHat__waiting" />
             <figurecaption className="isPerformer__heading">
@@ -49,7 +49,7 @@ export default class BeaconHat extends React.Component {
             </figurecaption>
           </figure>
         }
-        { isPerformer && performerId && 
+        { !isPerformer && !performerId && 
           <Link to={'/performer/' + this.props.performerId}>
           <figure className="BeaconHat__isPerformer">
             <i className="BeaconHat__notification" />
@@ -60,7 +60,7 @@ export default class BeaconHat extends React.Component {
           </figure>
           </Link>
         }
-        <img className="BeaconHat__hat" src="/images/hat.svg" alt="Hat" />
+        {/*<img className="BeaconHat__hat" src="/images/hat.svg" alt="Hat" /> */}
       </section>
     );
   }
