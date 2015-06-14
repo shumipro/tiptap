@@ -11,12 +11,7 @@ var ThumbsBackgroundImage = require('../components/ThumbsBackgroundImage');
 // constants
 var text = {
   title: "Performer Profie",
-<<<<<<< HEAD
   noDescription: "..."
-=======
-  // noDescription: "...",
-  noDescription: "【サンプル】はじめまして。私はピーターといいます。普段はフランス・パリの凱旋門の真下でサーカス芸をしています。一番の得意技はバルーン・パフォーマンスです:)是非見に来てくださいね♪"
->>>>>>> 23b707c8729ac6d930120f6c9786c7bbbb43a830
 }
 
 export default class PerformerProfile extends React.Component {
