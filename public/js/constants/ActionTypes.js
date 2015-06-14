@@ -3,6 +3,12 @@ import keyMirror from 'keymirror';
 module.exports = keyMirror({
     
     /**
+      History Back actions
+    */
+    ON_HISTORY_BACK : null,
+    OFF_HISTORY_BACK: null,
+  
+    /**
       Menu Modal actions
     */
     OPEN_MENU_MODAL: null,
