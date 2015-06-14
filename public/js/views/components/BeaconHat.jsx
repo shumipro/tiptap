@@ -18,6 +18,7 @@ export default class BeaconHat extends React.Component {
     }
     
     this.text = {
+      defaultLabel: "Find Street Performer...",
       nearPerformerLabel: "Near Performer!"
     }
   }
@@ -25,7 +26,8 @@ export default class BeaconHat extends React.Component {
   render(){
     
     var {
-      nearPerformerLabel
+      nearPerformerLabel,
+      defaultLabel
     } = this.text;
     
     var {
@@ -40,20 +42,25 @@ export default class BeaconHat extends React.Component {
     return (
       <section className="Component_BeaconHat">
         { !isPerformer &&
-          <i className="BeaconHat__waiting" />
+          <figure className="BeaconHat__noPerformer">
+            <i className="BeaconHat__waiting" />
+            <figurecaption className="isPerformer__heading">
+              {defaultLabel}
+            </figurecaption>
+          </figure>
         }
         { isPerformer && performerId && 
           <Link to={'/performer/' + this.props.performerId}>
           <figure className="BeaconHat__isPerformer">
-            <figurecaption className="isPerformer__heading">
-              {nearPerformerLabel}
-            </figurecaption>
             <i className="BeaconHat__notification" />
             <ThumbsBackgroundImage imagePath={imgPath} />
+            <figurecaption className="BeaconHat__heading">
+              {nearPerformerLabel}
+            </figurecaption>
           </figure>
           </Link>
         }
-        <img src="/images/hat.svg" alt="Hat" />
+        <img className="BeaconHat__hat" src="/images/hat.svg" alt="Hat" />
       </section>
     );
   }
