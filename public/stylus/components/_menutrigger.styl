@@ -1,5 +1,56 @@
 /* for MenuTrigger */
 
+SettingTriggerIconWidthSize = 28px
+SettingTriggerIconHeightSize = 1px
+SettingTriggerIconPosition = 9px 0
+
 .Component_MenuTrigger
-  float: right;
-  margin: 15px;
+  
+  button-reset()
+  display block
+  height 44px
+  width 32px
+  border none
+  position relative
+  cursor pointer
+  margin-right Space_sizes[4]
+  margin-top Space_sizes[2]
+  
+  &:before
+    content ""
+    display block
+    color Service_MainFontColor
+    font-size Font_sizes[4]
+    border-top SettingTriggerIconHeightSize solid Service_MainFontColor
+    width SettingTriggerIconWidthSize
+    position absolute
+    left SettingTriggerIconPosition[1]
+    top SettingTriggerIconPosition[0]
+  &:after
+    content ""
+    display block
+    color #000
+    font-size Font_sizes[4]
+    //transform scaleX(1.5)
+    border-top SettingTriggerIconHeightSize solid Service_MainFontColor
+    width SettingTriggerIconWidthSize * .6
+    position absolute
+    left SettingTriggerIconPosition[1]
+    top SettingTriggerIconPosition[0] + 16
+    
+  .MenuTrigger__label
+    display inline-block
+    font-size Font_sizes[0] - 2
+    font-weight normal
+    color Service_MainFontColor
+    margin-top 32px
+    
+    &:before
+      content ""
+      display block
+      border-top SettingTriggerIconHeightSize solid Service_MainFontColor
+      width SettingTriggerIconWidthSize - 4px
+      position absolute
+      left SettingTriggerIconPosition[1]
+      top SettingTriggerIconPosition[0] + 8
+    

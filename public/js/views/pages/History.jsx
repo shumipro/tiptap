@@ -5,6 +5,8 @@ var React   = require('react');
 var Link    = require('react-router').Link;
 var joinClasses = require('react/lib/joinClasses');
 
+var PageHistoryActions  = require('../../actions/PageHistoryActions');
+
 // Component Call
 var {
 } = require('../components');
@@ -22,5 +24,9 @@ export default class History extends React.Component {
         History List
       </div>
     );
+  }
+  
+  componentDidMount() {
+    PageHistoryActions.onHistoryBack();
   }
 }

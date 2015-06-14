@@ -7,6 +7,7 @@ var joinClasses = require('react/lib/joinClasses');
 
 var PusherActions  = require('../../actions/PusherActions');
 var PerformerStore    = require('../../stores/PerformerStore');
+var PageHistoryActions  = require('../../actions/PageHistoryActions');
 
 // Component Call
 var {
@@ -43,8 +44,9 @@ export default class Perfomer extends React.Component {
       _pusher = new Pusher(PRELOAD_DATA.pusherClientId);
       _channel = _pusher.subscribe(this.props.params.performerId);
       _channel.bind('pay', function(data) {
-        alert("1$ payed by " + data.userName || "someone");
+        // alert("1$ payed by " + data.userName || "someone");
         data.payValue = data.payValue || 1
+        PusherActions.setPusherData(data);
         data.show = true
         PusherActions.setPusherData(data);
         // PusherActions.openPusherModal();
@@ -65,6 +67,7 @@ export default class Perfomer extends React.Component {
 
   componentDidMount() {
     PerformerStore.on('change:state', this._setState.bind(this));
+    PageHistoryActions.onHistoryBack();
   }
   componentWillUnMount() {
     PerformerStore.removeListener('change:state', this._setState.bind(this));
