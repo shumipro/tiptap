@@ -73,7 +73,7 @@
 		},
 		{
 			"ImportPath": "github.com/kyokomi/paypal",
-			"Rev": "a4a6f2878c75be8f5a04f83f10110692132815a7"
+			"Rev": "211b5e3316859ab9cc1a542036263411a5d1c20c"
 		},
 		{
 			"ImportPath": "github.com/microcosm-cc/bluemonday",

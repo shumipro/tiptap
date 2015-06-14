@@ -65,7 +65,7 @@ export default class Pusher extends React.Component {
     } = this.state;
     console.log("this.state", this.state);
     return (
-      <Modal toggle={this.state.show}　className="Component_Pusher">
+      <Modal toggle={this.state.show} display={this.state.show} className="Component_Pusher">
         <section className="Pusher__modal">
           <figure className="Puser__user">
             <ThumbsBackgroundImage imgPath={userIcon} />
